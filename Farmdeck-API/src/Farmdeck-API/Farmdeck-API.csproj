@@ -5,4 +5,12 @@
         <RootNamespace>Farmdeck_API</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="GraphQL" Version="2.4.0" />
+      <PackageReference Include="GraphQL.Server.Core" Version="3.4.0" />
+      <PackageReference Include="GraphQL.Server.Ui.GraphiQL" Version="3.4.0" />
+      <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
+      <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="3.4.0" />
+    </ItemGroup>
+
 </Project>
