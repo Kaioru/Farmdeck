@@ -34,6 +34,8 @@ namespace Farmdeck_API
             services.AddDbContext<FarmdeckDbContext>(options
                 => options.UseNpgsql(Configuration.GetConnectionString("DbContext")));
 
+            services.AddControllers();
+            
             services
                 .AddGraphQL()
                 .AddGraphTypes()
@@ -48,8 +50,6 @@ namespace Farmdeck_API
                 app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseGraphQL<ISchema>();
