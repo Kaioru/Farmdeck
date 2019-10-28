@@ -1,3 +1,5 @@
+using System.Configuration;
+using Farmdeck_API.Data;
 using Farmdeck_API.GraphQL;
 using GraphQL;
 using GraphQL.Server;
@@ -8,6 +10,7 @@ using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -21,6 +24,9 @@ namespace Farmdeck_API
         {
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddSingleton<ISchema, FarmdeckSchema>();
+            
+            services.AddDbContext<FarmdeckDbContext>(options => 
+                options.UseNpgsql(ConfigurationManager.ConnectionStrings["DbContext"].ConnectionString));
             
             services
                 .AddGraphQL()

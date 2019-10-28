@@ -1,4 +1,4 @@
-namespace Farmdeck_API.Entities
+namespace Farmdeck_API.Data.Entities
 {
     public enum IndicatorType : byte
     {
