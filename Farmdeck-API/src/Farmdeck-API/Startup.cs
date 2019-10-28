@@ -1,4 +1,3 @@
-using System.Configuration;
 using Farmdeck_API.Data;
 using Farmdeck_API.GraphQL;
 using GraphQL;
@@ -9,8 +8,8 @@ using GraphQL.Server.Ui.Voyager;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -18,16 +17,23 @@ namespace Farmdeck_API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddSingleton<ISchema, FarmdeckSchema>();
-            
-            services.AddDbContext<FarmdeckDbContext>(options => 
-                options.UseNpgsql(ConfigurationManager.ConnectionStrings["DbContext"].ConnectionString));
-            
+
+            services.AddDbContext<FarmdeckDbContext>(options
+                => options.UseNpgsql(Configuration.GetConnectionString("DbContext")));
+
             services
                 .AddGraphQL()
                 .AddGraphTypes()
@@ -50,7 +56,7 @@ namespace Farmdeck_API
             app.UseGraphQLWebSockets<ISchema>();
             app.UseGraphiQLServer(new GraphiQLOptions());
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
-            app.UseGraphQLVoyager(new GraphQLVoyagerOptions()); 
+            app.UseGraphQLVoyager(new GraphQLVoyagerOptions());
         }
     }
 }
