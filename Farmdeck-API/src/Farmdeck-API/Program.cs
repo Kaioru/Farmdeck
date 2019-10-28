@@ -1,11 +1,13 @@
 using System;
-using System.Net.Mqtt;
 using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using MQTTnet;
+using MQTTnet.Extensions.ManagedClient;
+using MQTTnet.Client.Options;
 
 namespace Farmdeck_API
 {
@@ -13,43 +15,44 @@ namespace Farmdeck_API
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Hello, World!");
-
-            var mqttClient = MqttClient.CreateAsync("localhost").Result;
-
-            var sess = mqttClient.ConnectAsync().Result;
-
-            string rcvTopic = "eebus/daenet/command";
-            string sendTopic = "eebus/daenet/telemetry";
-
-            mqttClient.SubscribeAsync(rcvTopic, MqttQualityOfService.ExactlyOnce);
-
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine("Enter the text to send.");
-
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-
-                    var line = System.Console.ReadLine();
-
-                    var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line));
-
-                    mqttClient.PublishAsync(new MqttApplicationMessage(sendTopic, data), MqttQualityOfService.ExactlyOnce).Wait();
-                }
-            });
-
-            mqttClient.MessageStream.Subscribe(msg =>
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-
-                Console.WriteLine(Encoding.UTF8.GetString(msg.Payload));
-
-                Console.ResetColor();
-            });
         }
+
+        public static async Task ConnectAsync()
+        {
+            string clientId = Guid.NewGuid().ToString();
+            string mqttURI =  "farmer.cloudmqtt.com";
+            string mqttUser = "nalfywlt";
+            string mqttPassword = "3kZymesJiHWk";
+            int mqttPort = 14103;
+            bool mqttSecure = false;
+            var messageBuilder = new MqttClientOptionsBuilder()
+                .WithClientId(clientId)
+                .WithCredentials(mqttUser, mqttPassword)
+                .WithTcpServer(mqttURI, mqttPort)
+                .WithCleanSession();
+
+            var options = mqttSecure
+              ? messageBuilder
+                .WithTls()
+                .Build()
+              : messageBuilder
+                .Build();
+            var managedOptions = new ManagedMqttClientOptionsBuilder()
+              .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
+              .WithClientOptions(options)
+              .Build();
+
+            var client = new MqttFactory().CreateManagedMqttClient();
+            await client.StartAsync(managedOptions);
+        }
+
+        public static async Task PublishAsync(string topic, string payload, bool retainFlag = true, int qos = 1) =>
+
+          await client.PublishAsync(new MqttApplicationMessageBuilder()
+            .WithTopic(topic)
+            .WithPayload(payload)
+            .WithQualityOfServiceLevel((MQTTnet.Protocol.MqttQualityOfServiceLevel)qos)
+            .WithRetainFlag(retainFlag)
+            .Build());
     }
 }
