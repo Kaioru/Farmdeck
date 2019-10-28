@@ -18,7 +18,6 @@
     <ItemGroup>
       <Folder Include="Contracts" />
       <Folder Include="GraphQL\Types" />
-      <Folder Include="Models" />
     </ItemGroup>
 
 </Project>
