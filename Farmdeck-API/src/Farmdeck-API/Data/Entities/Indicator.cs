@@ -11,5 +11,13 @@ namespace Farmdeck_API.Data.Entities
 
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+
+        public Indicator()
+        {
+            var now = DateTime.UtcNow;
+
+            DateCreated = now;
+            DateUpdated = now;
+        }
     }
 }
