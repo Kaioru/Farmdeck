@@ -1,5 +1,7 @@
+using System;
 using Farmdeck_API.Data;
 using Farmdeck_API.GraphQL;
+using Farmdeck_API.MQTT;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.GraphiQL;
@@ -12,6 +14,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Options;
+using MQTTnet.Extensions.ManagedClient;
 
 namespace Farmdeck_API
 {
@@ -34,8 +41,25 @@ namespace Farmdeck_API
             services.AddDbContext<FarmdeckDbContext>(options
                 => options.UseNpgsql(Configuration.GetConnectionString("DbContext")));
 
+            var mqttConfiguration = Configuration.GetSection("MQTT");
+            var mqttOptions = new MqttClientOptionsBuilder()
+                .WithClientId(Guid.NewGuid().ToString())
+                .WithCredentials(mqttConfiguration["User"], mqttConfiguration["Password"])
+                .WithTcpServer(mqttConfiguration["URI"], mqttConfiguration.GetValue<int>("Port"))
+                .WithCleanSession()
+                .Build();
+            var managedOptions = new ManagedMqttClientOptionsBuilder()
+                .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
+                .WithClientOptions(mqttOptions)
+                .Build();
+            var client = new MqttFactory().CreateManagedMqttClient();
+
+            services.AddSingleton<IManagedMqttClient>(client);
+            services.AddSingleton<IManagedMqttClientOptions>(managedOptions);
+            services.AddHostedService<MQTTClientService>();
+
             services.AddControllers();
-            
+
             services
                 .AddGraphQL()
                 .AddGraphTypes()
