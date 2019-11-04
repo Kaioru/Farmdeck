@@ -2,6 +2,7 @@ using System;
 using Farmdeck_API.Data;
 using Farmdeck_API.GraphQL;
 using Farmdeck_API.MQTT;
+using Farmdeck_API.MQTT.Handlers;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.GraphiQL;
@@ -54,9 +55,10 @@ namespace Farmdeck_API
                 .Build();
             var client = new MqttFactory().CreateManagedMqttClient();
 
-            services.AddSingleton<IManagedMqttClient>(client);
-            services.AddSingleton<IManagedMqttClientOptions>(managedOptions);
-            services.AddHostedService<MQTTClientService>();
+            services.AddSingleton<IndicatorHandler>();
+            services.AddHostedService<MQTTClientService>(s =>
+                new MQTTClientService(client, managedOptions, s)
+            );
 
             services.AddControllers();
 
