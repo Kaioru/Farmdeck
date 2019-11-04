@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
-  
-const POST => {
-    try {
-      const response = await axios.post("/login", {
-        firstName: "Fred",
-        lastName: "Flintstone"
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+const POST = async () => {
+  try {
+    const response = await axios.post("/login", {
+      firstName: "Fred",
+      lastName: "Flintstone"
+    });
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export default class FarmdeckGET extends Component {
   constructor(props) {
     super(props);
@@ -61,3 +62,4 @@ export default class FarmdeckGET extends Component {
     }
   }
 }
+export { POST };
