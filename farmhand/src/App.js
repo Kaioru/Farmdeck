@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { GlobalHeader, Sidebar, SidebarItem } from "react-rainbow-components";
+import dashboard from "./assets/icons/dashboard.svg";
+import charts from "./assets/icons/charts.svg";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItem: "GettingStarted"
+    };
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+  }
+
+  handleOnSelect(e, selectedItem) {
+    return this.setState({ selectedItem });
+  }
+
+  render() {
+    const { selectedItem } = this.state;
+    return (
+      <div>
+        <GlobalHeader />
+        <Sidebar
+          selectedItem={selectedItem}
+          onSelect={this.handleOnSelect}
+          id="sidebar-1"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <SidebarItem
+            icon={<img src={dashboard} alt="dashboard" />}
+            name="Dashboard"
+            label="Dashboard"
+          />
+          <SidebarItem
+            icon={<img src={charts} alt="charts" />}
+            name="Charts"
+            label="Charts"
+          />
+        </Sidebar>
+      </div>
+    );
+  }
 }
-
-export default App;
