@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using MQTTnet;
 using MQTTnet.Extensions.ManagedClient;
 
 namespace Farmdeck_API.MQTT
