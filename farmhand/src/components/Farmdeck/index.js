@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
-
-export default class Farmdeck extends Component {
+  
+const POST => {
+    try {
+      const response = await axios.post("/login", {
+        firstName: "Fred",
+        lastName: "Flintstone"
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+export default class FarmdeckGET extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +23,7 @@ export default class Farmdeck extends Component {
   }
 
   componentDidMount() {
-    axios.get("https://jsonplaceholder.typicode.com/users").then(
+    axios.get("URL").then(
       result => {
         this.setState({
           isLoaded: true,
