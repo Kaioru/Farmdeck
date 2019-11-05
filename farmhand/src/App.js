@@ -1,20 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
+import SectionHeading from "./components/SectionHeading";
 import SidebarContainer from "./components/SidebarContainer";
-import { Card, Column } from "react-rainbow-components";
+import Application from "react-rainbow-components";
 
 import "./styles.css";
 
 function App() {
   return (
-    <div id="container">
+    <div>
+      <SectionHeading />
       <SidebarContainer />
-      <Card>
-        <img
-          src="images/illustrations/Illustration-rainbow-1.svg"
-          className="rainbow-p-around_xx-large rainbow-m_auto rainbow-align-content_center"
-          alt="landscape with rainbows, birds and colorful balloons"
-        />
-      </Card>
     </div>
   );
 }
