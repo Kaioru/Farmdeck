@@ -1,0 +1,9 @@
+#sidebarContainer {
+  width: 88px;
+  border-bottom-left-radius: 0.875rem;
+  border-left: 1px solid #e3e5ed;
+  margin-left: 10px;
+}
+#headerContainer {
+  border-top-left-radius: 0.875rem;
+}
