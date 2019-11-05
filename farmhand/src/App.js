@@ -1,47 +1,32 @@
 import React, { Component } from "react";
-import { Sidebar, SidebarItem } from "react-rainbow-components";
-import dashboard from "./assets/icons/dashboard.svg";
-import charts from "./assets/icons/charts.svg";
+import SidebarContainer from './components/Sidebar'
+import { Card, Column } from "react-rainbow-components";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedItem: "GettingStarted"
-    };
-    this.handleOnSelect = this.handleOnSelect.bind(this);
-  }
+import logo from './assets/farmicon.jpg'
+import "./styles.css"
 
-  handleOnSelect(e, selectedItem) {
-    return this.setState({ selectedItem });
-  }
 
-  render() {
-    const { selectedItem } = this.state;
+
+
+function App() {
     return (
-      <div>
-        <header className="rainbow-align-content_space-between rainbow-background-color_white rainbow-p-vertical_medium react-rainbow-golbal-header"></header>
-        <div>
-          <Sidebar
-            selectedItem={selectedItem}
-            onSelect={this.handleOnSelect}
-            id="sidebar-1"
-          >
-            <SidebarItem
-              icon={<img src={dashboard} alt="dashboard" />}
-              name="Dashboard"
-              label="Dashboard"
-            />
-            <SidebarItem
-              icon={<img src={charts} alt="charts" />}
-              name="Charts"
-              label="Charts"
-            />
-          </Sidebar>
+      <div id="container">
+        <div id="headerContainer">
+        <header className="react-rainbow-admin_header rainbow-position_fixed rainbow-flex rainbow-align_center rainbow-p-horizontal_large rainbow-background-color_white">
+          <img src={logo} alt="rainbow logo" className="rainbow-m-left_medium react-rainbow-global-header-logo" />
+                
+            </header>
         </div>
+        <Column header="sidebar" field="sidebar" component={SidebarContainer}/>
+        <Card>
+            <img
+              src="images/illustrations/Illustration-rainbow-1.svg"
+              className="rainbow-p-around_xx-large rainbow-m_auto rainbow-align-content_center"
+              alt="landscape with rainbows, birds and colorful balloons"
+            />
+          </Card>
       </div>
     );
   }
-}
 
 export default App;
