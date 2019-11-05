@@ -1,0 +1,29 @@
+.react-rainbow-admin_header {
+  top: 0;
+  left: 0;
+  height: 68px;
+  width: 100vw;
+  z-index: 10000;
+  border-bottom: 1px solid #f4f6f9;
+}
+
+.react-rainbow-admin_header-logo {
+  width: 36px;
+  height: 36px;
+}
+
+@media (max-width: 600px) {
+  .react-rainbow-admin_header {
+    height: 124px;
+    padding: 16px 16px 0 16px;
+    align-items: flex-start;
+  }
+
+  .react-rainbow-admin_header-search {
+    margin: 0;
+    flex-shrink: 0;
+    position: absolute;
+    bottom: 12px;
+    width: calc(100% - 80px);
+  }
+}
