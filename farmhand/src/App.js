@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SidebarContainer from './components/Sidebar'
+import SidebarContainer from './components/SidebarContainer'
 import { Card, Column } from "react-rainbow-components";
 
 import logo from './assets/farmicon.jpg'
@@ -17,7 +17,9 @@ function App() {
                 
             </header>
         </div>
-        <Column header="sidebar" field="sidebar" component={SidebarContainer}/>
+        <div>
+        <SidebarContainer/>
+        </div>
         <Card>
             <img
               src="images/illustrations/Illustration-rainbow-1.svg"

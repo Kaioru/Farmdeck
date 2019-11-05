@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Sidebar, SidebarItem} from 'react-rainbow-components';
 import dashboard from "../../assets/icons/dashboard.svg";
 import charts from "../../assets/icons/charts.svg";
+import './styles.css'
 
 const verticalNavigationContainerStyles = {
     width: '88px',
