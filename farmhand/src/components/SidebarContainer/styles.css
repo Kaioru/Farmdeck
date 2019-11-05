@@ -1,43 +1,83 @@
-#container{
-    margin:20px;
+.react-rainbow-admin-app_sidebar-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: calc(100vh - 68px);
+  margin-top: 68px;
+  background-color: #fff;
+  z-index: 99999;
+  padding-bottom: 14px;
+  padding-top: 14px;
 }
 
-.react-rainbow-global-header {
-    border-radius: 0.875rem 0.875rem 0 0;
-    border-bottom: 1px solid #e3e5ed; 
+.react-rainbow-admin-app_sidebar {
+  width: 88px;
+  height: 100%;
+  border-right: 1px solid #f4f6f9;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
-.react-rainbow-global-header-logo {
-    width: 30px;
-    height: 30px;
+.react-rainbow-admin-app_router-container {
+  background-color: #f4f6f9;
+}
+.mainContainer {
+  padding-top: 68px;
+  padding-left: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-.react-rainbow-admin_header {
+.react-rainbow-admin-app_sidebar-item {
+  margin-bottom: 16px;
+}
+
+.react-rainbow-admin-app_sidebar-back-button-container {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .react-rainbow-admin-app_sidebar-container {
+    height: 100vh;
+    margin-top: 0;
+    transform: translateX(0%);
+    transition: transform 230ms linear, opacity 230ms linear;
+  }
+
+  .react-rainbow-admin-app_router-container {
+    padding-top: 116px;
+    padding-left: 0;
+  }
+
+  .react-rainbow-admin-app_sidebar-container--sidebar-hidden {
+    transform: translateX(-100%);
+    transition: transform 250ms linear, opacity 250ms linear;
+  }
+
+  .react-rainbow-admin-app_sidebar-back-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-grow: 2;
+    align-items: flex-end;
+    padding-top: 12px;
+  }
+
+  .react-rainbow-admin-app_sidebar-back-button-icon {
+    color: #000;
+  }
+
+  .react-rainbow-admin-app_backdrop {
+    display: unset;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(82, 95, 127, 0.4);
+    position: fixed;
+    z-index: 99999;
     top: 0;
     left: 0;
-    height: 68px;
-    width: 100vw;
-    z-index: 10000;
-    border-bottom: 1px solid #f4f6f9;
-}
-
-.react-rainbow-admin_header-logo {
-    width: 36px;
-    height: 36px;
-}
-
-.react-rainbow-admin_header-search {
-    width: 280px;
-}
-
-.react-rainbow-admin_header-actions {
-    justify-content: flex-end;
-    flex-grow: 1;
-}
-
-
-#sidebarContainer{
-    width: '88px';
-    border-bottom-left-radius: '0.875rem';
-    border-radius: '1px solid #e3e5ed'
+  }
 }
