@@ -30,7 +30,12 @@ namespace Farmdeck_API.MQTT
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _client.UseConnectedHandler(a => Console.WriteLine("Connected"));
+            _client.UseConnectedHandler(async a =>
+            {
+                Console.WriteLine("Connected");
+
+                await _client.SubscribeAsync("indicator");
+            });
             _client.UseDisconnectedHandler(a => Console.WriteLine(a.Exception));
             _client.UseApplicationMessageReceivedHandler(a =>
             {
