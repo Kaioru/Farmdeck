@@ -6,6 +6,7 @@ import lighthouse from "../../assets/icons/lighthouse.svg";
 import music from "../../assets/icons/music.svg";
 import controller from "../../assets/icons/controller.svg";
 import axios from "axios";
+import Axios from "axios";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -16,25 +17,71 @@ export default class Dashboard extends Component {
       light: false,
       sound: false,
       motor: 0,
-      response: null
+      response: null,
+      error: null
     };
   }
 
-  POST = async (type, placeholder) => {
+  POST = async (type, number) => {
     try {
       const response = await axios.post("https://reqres.in/api/login", {
         email: type,
-        password: placeholder
+        password: number
       });
-      this.setState({
-        response: response
-      });
+      return response;
     } catch (err) {
-      return err;
+      console.log(err);
     }
   };
   onClick = (type, placeholder) => {
-    this.POST(type, placeholder);
+    const { pump, light, sound, motor } = this.state;
+    switch (type) {
+      case "pump":
+        if (pump) {
+          const response = this.POST("eve.holt@reqres.in", "cityslicka");
+          console.log(response);
+          this.setState({
+            pump: false
+          });
+        } else {
+          this.POST("eve.holt@reqres.in", "cityslicka");
+          this.setState({
+            pump: true
+          });
+        }
+        break;
+      case "light":
+        if (light) {
+          this.POST("eve.holt@reqres.in", "cityslicka");
+          this.setState({
+            light: false
+          });
+        } else {
+          this.POST("eve.holt@reqres.in", "cityslicka");
+          this.setState({
+            light: true
+          });
+        }
+        break;
+      case "sound":
+        if (sound) {
+          this.POST("eve.holt@reqres.in", "cityslicka");
+          this.setState({
+            sound: false
+          });
+        } else {
+          this.POST("eve.holt@reqres.in", "cityslicka");
+          this.setState({
+            sound: true
+          });
+        }
+        break;
+
+      default:
+        break;
+    }
+    if (type === "pump") {
+    }
   };
 
   render() {
@@ -60,7 +107,7 @@ export default class Dashboard extends Component {
                 className="rainbow-m-top_medium"
                 type="button"
                 variant="brand"
-                onClick={() => this.onClick("eve.holt@reqres.in", "cityslicka")}
+                onClick={() => this.onClick("pump")}
               >
                 <span>Water the plants</span>
               </Button>
@@ -73,15 +120,25 @@ export default class Dashboard extends Component {
                 alt="lighthouse"
                 className="react-rainbow-admin-forms_logo"
               />
-              <h1>Light is currently ON</h1>
+
+              {light ? (
+                <h1>Light is currently ON</h1>
+              ) : (
+                <h1>Light is currently OFF</h1>
+              )}
             </div>
             <article className="textContainer">
               <Button
                 className="rainbow-m-top_medium"
                 type="button"
                 variant="brand"
+                onClick={() => this.onClick("light")}
               >
-                <span>Turn on the lights</span>
+                {light ? (
+                  <span>Turn off the lights</span>
+                ) : (
+                  <span>Turn on the lights</span>
+                )}
               </Button>
             </article>
           </Card>
@@ -93,7 +150,11 @@ export default class Dashboard extends Component {
                 alt="music"
                 className="react-rainbow-admin-forms_logo"
               />
-              <h1>Music is currently OFF</h1>
+              {light ? (
+                <h1>Music is currently ON</h1>
+              ) : (
+                <h1>Music is currently OFF</h1>
+              )}
             </div>
             <article className="textContainer">
               <Button
@@ -101,7 +162,11 @@ export default class Dashboard extends Component {
                 type="button"
                 variant="brand"
               >
-                <span>Turn on music</span>
+                {music ? (
+                  <span>Turn off music</span>
+                ) : (
+                  <span>Turn on music</span>
+                )}
               </Button>
             </article>
           </Card>
