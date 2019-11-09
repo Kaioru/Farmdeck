@@ -12,15 +12,16 @@ namespace Farmdeck_API.MQTT
     public class MQTTClientService : IHostedService
     {
         private readonly IManagedMqttClientOptions _options;
-        private readonly IManagedMqttClient _client;
         private readonly IDictionary<string, IMQTTHandler> _handlers;
+        
+        public IManagedMqttClient Client { get; set; }
 
         public MQTTClientService(
             IManagedMqttClient client,
             IManagedMqttClientOptions options,
             IServiceProvider services)
         {
-            _client = client;
+            Client = client;
             _options = options;
             _handlers = new Dictionary<string, IMQTTHandler>
             {
@@ -30,17 +31,22 @@ namespace Farmdeck_API.MQTT
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _client.UseConnectedHandler(a => Console.WriteLine("Connected"));
-            _client.UseDisconnectedHandler(a => Console.WriteLine(a.Exception));
-            _client.UseApplicationMessageReceivedHandler(a =>
+            Client.UseConnectedHandler(async a =>
+            {
+                Console.WriteLine("Connected");
+
+                await Client.SubscribeAsync("indicator");
+            });
+            Client.UseDisconnectedHandler(a => Console.WriteLine(a.Exception));
+            Client.UseApplicationMessageReceivedHandler(a =>
             {
                 if (_handlers.ContainsKey(a.ApplicationMessage.Topic))
-                    _handlers[a.ApplicationMessage.Topic].Handle(_client, a);
+                    _handlers[a.ApplicationMessage.Topic].Handle(Client, a);
             });
-            return _client.StartAsync(_options);
+            return Client.StartAsync(_options);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
-            => _client.StopAsync();
+            => Client.StopAsync();
     }
 }
