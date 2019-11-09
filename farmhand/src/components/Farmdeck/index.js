@@ -3,9 +3,8 @@ import axios from "axios";
 
 const POST = async () => {
   try {
-    const response = await axios.post("/login", {
-      firstName: "Fred",
-      lastName: "Flintstone"
+    const response = await axios.post("localhost:5001/panel/ToggleComponent", {
+      type: "motor"
     });
     console.log(response);
   } catch (err) {
@@ -13,7 +12,7 @@ const POST = async () => {
   }
 };
 
-export default class FarmdeckGET extends Component {
+export default class Farmdeck extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +23,7 @@ export default class FarmdeckGET extends Component {
   }
 
   componentDidMount() {
-    axios.get("URL").then(
+    axios.get("https://reqres.in/api/users?page=2").then(
       result => {
         this.setState({
           isLoaded: true,
@@ -52,9 +51,9 @@ export default class FarmdeckGET extends Component {
     } else {
       return (
         <ul>
-          {items.map(item => (
-            <li key={item.name}>
-              {item.name} {item.price}
+          {items.data.map(item => (
+            <li key={item.id}>
+              {item.first_name} {item.last_name}
             </li>
           ))}
         </ul>
