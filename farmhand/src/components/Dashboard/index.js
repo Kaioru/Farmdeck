@@ -50,12 +50,12 @@ export default class Dashboard extends Component {
           response = await this.POST(type, 0);
 
           this.setState({
-            pump: false ? response : true
+            pump: response ? false : true
           });
         } else {
           response = await this.POST(type, 1);
           this.setState({
-            pump: true ? response : false
+            pump: response ? true : false
           });
         }
         break;
@@ -63,12 +63,12 @@ export default class Dashboard extends Component {
         if (light) {
           response = await this.POST(type, 0);
           this.setState({
-            light: false ? response : true
+            light: response ? false : true
           });
         } else {
           response = await this.POST(type, 1);
           this.setState({
-            light: true ? response : false
+            light: response ? true : false
           });
         }
         break;
@@ -76,20 +76,22 @@ export default class Dashboard extends Component {
         if (sound) {
           response = await this.POST(type, 0);
           this.setState({
-            sound: false ? response : true
+            sound: response ? false : true
           });
         } else {
           response = await this.POST(type, 1);
           this.setState({
-            sound: true ? response : false
+            sound: response ? true : false
           });
         }
         break;
       case "motor":
         response = await this.POST(type, 1);
-        this.setState({
-          motor: motor + 90 ? response : motor
-        });
+        if (response) {
+          this.setState({
+            motor: motor < 270 ? motor + 90 : 0
+          });
+        }
         break;
       default:
         break;
@@ -161,7 +163,6 @@ export default class Dashboard extends Component {
                 src={music}
                 alt="music"
                 className="react-rainbow-admin-forms_logo"
-                onClick={() => this.onClick("sound")}
               />
               {sound ? (
                 <h1>Music is currently ON</h1>
@@ -174,6 +175,7 @@ export default class Dashboard extends Component {
                 className="rainbow-m-top_medium"
                 type="button"
                 variant="brand"
+                onClick={() => this.onClick("sound")}
               >
                 {sound ? (
                   <span>Turn off music</span>
@@ -190,13 +192,14 @@ export default class Dashboard extends Component {
                 alt="controller"
                 className="react-rainbow-admin-forms_logo"
               />
-              <h1>The sun is shining from {motor}° clockwise</h1>
+              <h1>The plants are facing {motor}° clockwise from center</h1>
             </div>
             <article className="textContainer">
               <Button
                 className="rainbow-m-top_medium"
                 type="button"
                 variant="brand"
+                onClick={() => this.onClick("motor")}
               >
                 <span>Turn 90° clockwise</span>
               </Button>
