@@ -6,7 +6,7 @@ import lighthouse from "../../assets/icons/lighthouse.svg";
 import music from "../../assets/icons/music.svg";
 import controller from "../../assets/icons/controller.svg";
 import axios from "axios";
-import Axios from "axios";
+import https from "https";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -24,27 +24,30 @@ export default class Dashboard extends Component {
 
   POST = async (type, number) => {
     try {
-      const response = await axios.post("https://reqres.in/api/login", {
-        email: type,
-        password: number
-      });
+      const response = await axios.post(
+        "http://localhost:5000/panel/toggle",
+        {
+          type: type
+        },
+        { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
+      );
       return response;
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
-  onClick = (type, placeholder) => {
+  onClick = async (type, placeholder) => {
     const { pump, light, sound, motor } = this.state;
     switch (type) {
       case "pump":
         if (pump) {
-          const response = this.POST("eve.holt@reqres.in", "cityslicka");
+          const response = await this.POST("light");
           console.log(response);
           this.setState({
             pump: false
           });
         } else {
-          this.POST("eve.holt@reqres.in", "cityslicka");
+          this.POST("motor");
           this.setState({
             pump: true
           });
