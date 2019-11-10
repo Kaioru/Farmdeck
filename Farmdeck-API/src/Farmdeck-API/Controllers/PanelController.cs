@@ -16,9 +16,9 @@ namespace Farmdeck_API.Controllers
         
         [HttpPost]
         [Route("toggle")]
-        public async Task<IActionResult> ToggleComponent(string type)
+        public async Task<IActionResult> ToggleComponent(string type, int state)
         {
-            await _mqtt.Client.PublishAsync("panel", type);
+            await _mqtt.Client.PublishAsync("panel", type + state);
 
             return Ok();
         }
