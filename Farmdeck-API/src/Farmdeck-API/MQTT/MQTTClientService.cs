@@ -36,6 +36,7 @@ namespace Farmdeck_API.MQTT
                 Console.WriteLine("Connected");
 
                 await Client.SubscribeAsync("indicator");
+                await Client.PublishAsync("panel", "hello");
             });
             Client.UseDisconnectedHandler(a => Console.WriteLine(a.Exception));
             Client.UseApplicationMessageReceivedHandler(a =>

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Farmdeck_API.Data;
 using Farmdeck_API.GraphQL;
 using Farmdeck_API.MQTT;
@@ -44,8 +45,7 @@ namespace Farmdeck_API
                         builder
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowCredentials();
+                            .AllowAnyHeader();
                     });
             });
 
@@ -69,9 +69,13 @@ namespace Farmdeck_API
             var client = new MqttFactory().CreateManagedMqttClient();
 
             services.AddSingleton<IndicatorHandler>();
-            services.AddHostedService<MQTTClientService>(s =>
-                new MQTTClientService(client, managedOptions, s)
-            );
+            services.AddSingleton<MQTTClientService>(s =>
+            {
+                var service = new MQTTClientService(client, managedOptions, s);
+
+                service.StartAsync(CancellationToken.None);
+                return service;
+            });
 
             services.AddControllers();
 
