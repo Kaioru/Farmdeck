@@ -22,68 +22,77 @@ export default class Dashboard extends Component {
     };
   }
 
-  POST = async (type, number) => {
+  POST = async (type, state) => {
     try {
       const response = await axios.post(
         "http://localhost:5000/panel/toggle",
         {
-          type: type
+          type: type,
+          state: state
         },
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
       );
-      return response;
+      this.setState({
+        response: response
+      });
+      return true;
     } catch (err) {
-      return err;
+      return false;
     }
   };
-  onClick = async (type, placeholder) => {
+  onClick = async type => {
     const { pump, light, sound, motor } = this.state;
+    let response;
+
     switch (type) {
       case "pump":
         if (pump) {
-          const response = await this.POST("light");
-          console.log(response);
+          response = await this.POST(type, 0);
+
           this.setState({
-            pump: false
+            pump: false ? response : true
           });
         } else {
-          this.POST("motor");
+          response = await this.POST(type, 1);
           this.setState({
-            pump: true
+            pump: true ? response : false
           });
         }
         break;
       case "light":
         if (light) {
-          this.POST("eve.holt@reqres.in", "cityslicka");
+          response = await this.POST(type, 0);
           this.setState({
-            light: false
+            light: false ? response : true
           });
         } else {
-          this.POST("eve.holt@reqres.in", "cityslicka");
+          response = await this.POST(type, 1);
           this.setState({
-            light: true
+            light: true ? response : false
           });
         }
         break;
       case "sound":
         if (sound) {
-          this.POST("eve.holt@reqres.in", "cityslicka");
+          response = await this.POST(type, 0);
           this.setState({
-            sound: false
+            sound: false ? response : true
           });
         } else {
-          this.POST("eve.holt@reqres.in", "cityslicka");
+          response = await this.POST(type, 1);
           this.setState({
-            sound: true
+            sound: true ? response : false
           });
         }
         break;
-
+      case "motor":
+        response = await this.POST(type, 1);
+        this.setState({
+          motor: motor + 90 ? response : motor
+        });
+        break;
       default:
         break;
-    }
-    if (type === "pump") {
     }
   };
 
@@ -152,8 +161,9 @@ export default class Dashboard extends Component {
                 src={music}
                 alt="music"
                 className="react-rainbow-admin-forms_logo"
+                onClick={() => this.onClick("sound")}
               />
-              {light ? (
+              {sound ? (
                 <h1>Music is currently ON</h1>
               ) : (
                 <h1>Music is currently OFF</h1>
@@ -165,7 +175,7 @@ export default class Dashboard extends Component {
                 type="button"
                 variant="brand"
               >
-                {music ? (
+                {sound ? (
                   <span>Turn off music</span>
                 ) : (
                   <span>Turn on music</span>
@@ -180,7 +190,7 @@ export default class Dashboard extends Component {
                 alt="controller"
                 className="react-rainbow-admin-forms_logo"
               />
-              <h1>The sun is shining from 182° clockwise</h1>
+              <h1>The sun is shining from {motor}° clockwise</h1>
             </div>
             <article className="textContainer">
               <Button
