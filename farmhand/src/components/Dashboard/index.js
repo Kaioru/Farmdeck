@@ -22,12 +22,12 @@ export default class Dashboard extends Component {
     };
   }
 
-  POST = async (type, state) => {
+  POST = async (name, state) => {
     try {
       const response = await axios.post(
         "http://localhost:5000/panel/toggle",
         {
-          type: type,
+          type: name,
           state: state
         },
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
