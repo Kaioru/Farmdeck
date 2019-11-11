@@ -13,7 +13,7 @@ export default class Dashboard extends Component {
     super(props);
     this.onClick = this.onClick.bind(this);
     this.state = {
-      pump: false,
+      pump: 0,
       light: false,
       sound: false,
       motor: 0,
@@ -50,12 +50,12 @@ export default class Dashboard extends Component {
           response = await this.POST(type, 0);
 
           this.setState({
-            pump: response ? false : true
+            pump: response ? 0 : 1
           });
         } else {
           response = await this.POST(type, 1);
           this.setState({
-            pump: response ? true : false
+            pump: response ? 1 : 0
           });
         }
         break;
@@ -117,14 +117,24 @@ export default class Dashboard extends Component {
               )}
             </div>
             <article className="textContainer">
-              <Button
-                className="rainbow-m-top_medium"
-                type="button"
-                variant="brand"
-                onClick={() => this.onClick("pump")}
-              >
-                <span>Water the plants</span>
-              </Button>
+              <div className="buttonGroup">
+                <Button
+                  className="rainbow-m-top_medium"
+                  type="button"
+                  variant="brand"
+                  onClick={() => this.onClick("pump")}
+                >
+                  <span>Water the plants</span>
+                </Button>
+                <Button
+                  className="rainbow-m-top_medium"
+                  type="button"
+                  variant="brand"
+                  onClick={() => this.onClick("automate")}
+                >
+                  {pump === 2 ? <span>Automatic</span> : <span>Manual</span>}
+                </Button>
+              </div>
             </article>
           </Card>
           <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">

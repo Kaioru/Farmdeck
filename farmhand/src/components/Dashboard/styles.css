@@ -26,6 +26,9 @@
   position: absolute;
   bottom: 0;
 }
+.buttonGroup {
+  flex-direction: row;
+}
 .react-rainbow-admin-forms_header {
   display: flex;
   flex-direction: column;
