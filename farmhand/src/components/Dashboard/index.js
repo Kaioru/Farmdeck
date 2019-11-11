@@ -18,7 +18,12 @@ export default class Dashboard extends Component {
       sound: false,
       motor: 0,
       response: null,
-      error: null
+      error: null,
+
+      pumpIsLoading: false,
+      lightIsLoading: false,
+      soundIsLoading: false,
+      motorIsLoading: false
     };
   }
 
@@ -40,24 +45,40 @@ export default class Dashboard extends Component {
       return false;
     }
   };
+
   onClick = async type => {
-    const { pump, light, sound, motor } = this.state;
+    const {
+      pump,
+      pumpIsLoading,
+      light,
+      lightIsLoading,
+      sound,
+      soundIsLoading,
+      motor,
+      motorIsLoading
+    } = this.state;
     let response;
 
     switch (type) {
       case "pump":
-        if (pump) {
-          response = await this.POST(type, 0);
+        let count = pump + 1;
+        this.setState({
+          pumpIsLoading: true
+        });
 
+        response = await this.POST(type, count % 3);
+        if (response.status === 200) {
           this.setState({
-            pump: response ? 0 : 1
+            pump: count,
+            pumpIsLoading: false
           });
         } else {
-          response = await this.POST(type, 1);
+          console.log("Error connecting to server");
           this.setState({
-            pump: response ? 1 : 0
+            pumpIsLoading: false
           });
         }
+
         break;
       case "light":
         if (light) {
@@ -98,8 +119,32 @@ export default class Dashboard extends Component {
     }
   };
 
-  render() {
+  setText = (type, text) => {
     const { pump, light, sound, motor } = this.state;
+    switch (type) {
+      case "pump":
+        if (text === "title") {
+          if (pump !== 0) {
+            return <h1>Last watering: 0 days</h1>;
+          } else {
+            return <h1>Last watering: 2 days</h1>;
+          }
+        } else {
+          if (pump % 3 === 0) {
+            return <span>Turn on watering</span>;
+          } else if (pump % 3 === 1) {
+            return <span>Automate watering</span>;
+          } else if (pump % 3 === 2) {
+            return <span>Turn off watering</span>;
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  };
+  render() {
+    const { pump, pumpIsLoading, light, sound, motor } = this.state;
     return (
       <div className="react-rainbow-admin-forms_container rainbow-background-color_gray-1">
         <section className="react-rainbow-admin-forms_section rainbow-p-top_large">
@@ -110,31 +155,23 @@ export default class Dashboard extends Component {
                 alt="environment"
                 className="react-rainbow-admin-forms_logo"
               />
-              {pump ? (
+              {pump !== 0 ? (
                 <h1>Last watering: 0 days</h1>
               ) : (
                 <h1>Last watering: 2 days</h1>
               )}
             </div>
             <article className="textContainer">
-              <div className="buttonGroup">
-                <Button
-                  className="rainbow-m-top_medium"
-                  type="button"
-                  variant="brand"
-                  onClick={() => this.onClick("pump")}
-                >
-                  <span>Water the plants</span>
-                </Button>
-                <Button
-                  className="rainbow-m-top_medium"
-                  type="button"
-                  variant="brand"
-                  onClick={() => this.onClick("automate")}
-                >
-                  {pump === 2 ? <span>Automatic</span> : <span>Manual</span>}
-                </Button>
-              </div>
+              <Button
+                isLoading={pumpIsLoading}
+                className="rainbow-m-top_medium"
+                type="button"
+                variant="brand"
+                onClick={() => this.onClick("pump")}
+              >
+                {this.setText("pump", "body")}
+                {console.log(this.setText("pump", "body"))}
+              </Button>
             </article>
           </Card>
           <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
