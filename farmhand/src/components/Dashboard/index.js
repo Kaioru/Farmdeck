@@ -147,112 +147,114 @@ export default class Dashboard extends Component {
     const { pump, pumpIsLoading, light, sound, motor } = this.state;
     return (
       <div className="react-rainbow-admin-forms_container rainbow-background-color_gray-1">
-        <section className="react-rainbow-admin-forms_section rainbow-p-top_large">
-          <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
-            <div className="react-rainbow-admin-forms_header">
-              <img
-                src={environment}
-                alt="environment"
-                className="react-rainbow-admin-forms_logo"
-              />
-              {pump !== 0 ? (
-                <h1>Last watering: 0 days</h1>
-              ) : (
-                <h1>Last watering: 2 days</h1>
-              )}
-            </div>
-            <article className="textContainer">
-              <Button
-                isLoading={pumpIsLoading}
-                className="rainbow-m-top_medium"
-                type="button"
-                variant="brand"
-                onClick={() => this.onClick("pump")}
-              >
-                {this.setText("pump", "body")}
-                {console.log(this.setText("pump", "body"))}
-              </Button>
-            </article>
-          </Card>
-          <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
-            <div className="react-rainbow-admin-forms_header">
-              <img
-                src={lighthouse}
-                alt="lighthouse"
-                className="react-rainbow-admin-forms_logo"
-              />
+        <div>
+          <section className="react-rainbow-admin-forms_section">
+            <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
+              <div className="react-rainbow-admin-forms_header">
+                <img
+                  src={environment}
+                  alt="environment"
+                  className="react-rainbow-admin-forms_logo"
+                />
+                {pump !== 0 ? (
+                  <h1>Last watering: 0 days</h1>
+                ) : (
+                  <h1>Last watering: 2 days</h1>
+                )}
+              </div>
+              <article className="textContainer">
+                <Button
+                  isLoading={pumpIsLoading}
+                  className="rainbow-m-top_medium"
+                  type="button"
+                  variant="brand"
+                  onClick={() => this.onClick("pump")}
+                >
+                  {this.setText("pump", "body")}
+                  {console.log(this.setText("pump", "body"))}
+                </Button>
+              </article>
+            </Card>
+            <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
+              <div className="react-rainbow-admin-forms_header">
+                <img
+                  src={lighthouse}
+                  alt="lighthouse"
+                  className="react-rainbow-admin-forms_logo"
+                />
 
-              {light ? (
-                <h1>Light is currently ON</h1>
-              ) : (
-                <h1>Light is currently OFF</h1>
-              )}
-            </div>
-            <article className="textContainer">
-              <Button
-                className="rainbow-m-top_medium"
-                type="button"
-                variant="brand"
-                onClick={() => this.onClick("light")}
-              >
                 {light ? (
-                  <span>Turn off the lights</span>
+                  <h1>Light is currently ON</h1>
                 ) : (
-                  <span>Turn on the lights</span>
+                  <h1>Light is currently OFF</h1>
                 )}
-              </Button>
-            </article>
-          </Card>
+              </div>
+              <article className="textContainer">
+                <Button
+                  className="rainbow-m-top_medium"
+                  type="button"
+                  variant="brand"
+                  onClick={() => this.onClick("light")}
+                >
+                  {light ? (
+                    <span>Turn off the lights</span>
+                  ) : (
+                    <span>Turn on the lights</span>
+                  )}
+                </Button>
+              </article>
+            </Card>
 
-          <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
-            <div className="react-rainbow-admin-forms_header">
-              <img
-                src={music}
-                alt="music"
-                className="react-rainbow-admin-forms_logo"
-              />
-              {sound ? (
-                <h1>Music is currently ON</h1>
-              ) : (
-                <h1>Music is currently OFF</h1>
-              )}
-            </div>
-            <article className="textContainer">
-              <Button
-                className="rainbow-m-top_medium"
-                type="button"
-                variant="brand"
-                onClick={() => this.onClick("sound")}
-              >
+            <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
+              <div className="react-rainbow-admin-forms_header">
+                <img
+                  src={music}
+                  alt="music"
+                  className="react-rainbow-admin-forms_logo"
+                />
                 {sound ? (
-                  <span>Turn off music</span>
+                  <h1>Music is currently ON</h1>
                 ) : (
-                  <span>Turn on music</span>
+                  <h1>Music is currently OFF</h1>
                 )}
-              </Button>
-            </article>
-          </Card>
-          <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
-            <div className="react-rainbow-admin-forms_header">
-              <img
-                src={controller}
-                alt="controller"
-                className="react-rainbow-admin-forms_logo"
-              />
-              <h1>The plants are facing {motor}° clockwise from center</h1>
-            </div>
-            <article className="textContainer">
-              <Button
-                className="rainbow-m-top_medium"
-                type="button"
-                variant="brand"
-                onClick={() => this.onClick("motor")}
-              >
-                <span>Turn 90° clockwise</span>
-              </Button>
-            </article>
-          </Card>
-        </section>
+              </div>
+              <article className="textContainer">
+                <Button
+                  className="rainbow-m-top_medium"
+                  type="button"
+                  variant="brand"
+                  onClick={() => this.onClick("sound")}
+                >
+                  {sound ? (
+                    <span>Turn off music</span>
+                  ) : (
+                    <span>Turn on music</span>
+                  )}
+                </Button>
+              </article>
+            </Card>
+            <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
+              <div className="react-rainbow-admin-forms_header">
+                <img
+                  src={controller}
+                  alt="controller"
+                  className="react-rainbow-admin-forms_logo"
+                />
+                <h1>The plants are facing {motor}° clockwise from center</h1>
+              </div>
+              <article className="textContainer">
+                <Button
+                  className="rainbow-m-top_medium"
+                  type="button"
+                  variant="brand"
+                  onClick={() => this.onClick("motor")}
+                >
+                  <span>Turn 90° clockwise</span>
+                </Button>
+              </article>
+            </Card>
+          </section>
+        </div>
       </div>
     );
   }

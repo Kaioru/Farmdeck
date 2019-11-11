@@ -1,6 +1,10 @@
 .react-rainbow-admin-forms_container {
-  padding: 16px 40px;
-  width: 100%;
+  padding: 0 40px;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .react-rainbow-admin-forms_section {

@@ -25,9 +25,6 @@
 .mainContainer {
   padding-top: 68px;
   padding-left: 88px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
 }
 
