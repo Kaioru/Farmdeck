@@ -14,8 +14,8 @@ export default class Dashboard extends Component {
     this.onClick = this.onClick.bind(this);
     this.state = {
       pump: 0,
-      light: false,
-      sound: false,
+      light: 0,
+      sound: 0,
       motor: 0,
       response: null,
       error: null,
@@ -49,13 +49,9 @@ export default class Dashboard extends Component {
   onClick = async type => {
     const {
       pump,
-      pumpIsLoading,
       light,
-      lightIsLoading,
       sound,
-      soundIsLoading,
       motor,
-      motorIsLoading
     } = this.state;
     let response;
 
@@ -81,36 +77,58 @@ export default class Dashboard extends Component {
 
         break;
       case "light":
-        if (light) {
-          response = await this.POST(type, 0);
+        let count = light + 1;
+        this.setState({
+          lightIsLoading: true
+        });
+
+        response = await this.POST(type, count % 3);
+        if (response.status === 200) {
           this.setState({
-            light: response ? false : true
+            light: count,
+            lightIsLoading: false
           });
         } else {
-          response = await this.POST(type, 1);
+          console.log("Error connecting to server");
           this.setState({
-            light: response ? true : false
+            lightIsLoading: false
           });
         }
         break;
+
       case "sound":
-        if (sound) {
-          response = await this.POST(type, 0);
+        let count = sound + 1;
+        this.setState({
+          soundIsLoading: true
+        });
+
+        response = await this.POST(type, count % 3);
+        if (response.status === 200) {
           this.setState({
-            sound: response ? false : true
+            sound: count,
+            soundIsLoading: false
           });
         } else {
-          response = await this.POST(type, 1);
+          console.log("Error connecting to server");
           this.setState({
-            sound: response ? true : false
+            soundIsLoading: false
           });
         }
-        break;
       case "motor":
-        response = await this.POST(type, 1);
-        if (response) {
+        let count = motor + 1;
+        this.setState({
+          motorIsLoading:true;
+        })
+        response = await this.POST(type, count % 3;
+        if (response === 200) {
           this.setState({
-            motor: motor < 270 ? motor + 90 : 0
+            motor: count + 1;
+            motorIsLoading: false;
+          });
+        } else {
+          console.log("Error connecting to server");
+          this.setState({
+            motorIsLoading: false
           });
         }
         break;
@@ -139,6 +157,67 @@ export default class Dashboard extends Component {
           }
         }
         break;
+      case "light":
+        if (text === "title") {
+          if (light % 3 === 0) {
+            return <h1>Light is OFF</h1>;
+          } else if (light % 3 === 1){
+            return <h1>Light is ON</h1>;
+          } else if (light % 3 === 2){
+            return <h1>Light is automatic</h1>;
+          }
+          
+        } else {
+          if (light % 3 === 0) {
+            return <span>Turn on lights</span>;
+          } else if (light % 3 === 1) {
+            return <span>Automate lights</span>;
+          } else if (light % 3 === 2) {
+            return <span>Turn off lights</span>;
+          }
+        }
+        break;
+
+      case "sound":
+        if (text === "title") {
+          if (sound % 3 === 0) {
+            return <h1>Sound is OFF</h1>;
+          } else if (sound % 3 === 1){
+            return <h1>Sound is ON</h1>;
+          } else if (sound % 3 === 2){
+            return <h1>Sound is automatic</h1>;
+          }
+          
+        } else {
+          if (sound % 3 === 0) {
+            return <span>Turn on sound</span>;
+          } else if (sound % 3 === 1) {
+            return <span>Automate sound</span>;
+          } else if (sound % 3 === 2) {
+            return <span>Turn off sound</span>;
+          }
+        }
+        break;
+      case "motor":
+        if (text === "title") {
+          if (motor % 3 === 0) {
+            return <h1>Motor is OFF</h1>;
+          } else if (motor % 3 === 1){
+            return <h1>Motor is ON</h1>;
+          } else if (motor % 3 === 2){
+            return <h1>Motor is automatic</h1>;
+          }
+        } else {
+          if (motor % 3 === 0) {
+            return <span>Turn on motor</span>;
+          } else if (motor % 3 === 1) {
+            return <span>Automate motor</span>;
+          } else if (motor % 3 === 2) {
+            return <span>Turn off motor</span>;
+          }
+        }
+        break;
+
       default:
         break;
     }
@@ -156,11 +235,7 @@ export default class Dashboard extends Component {
                   alt="environment"
                   className="react-rainbow-admin-forms_logo"
                 />
-                {pump !== 0 ? (
-                  <h1>Last watering: 0 days</h1>
-                ) : (
-                  <h1>Last watering: 2 days</h1>
-                )}
+                {this.setText("pump", "title")}
               </div>
               <article className="textContainer">
                 <Button
@@ -171,7 +246,6 @@ export default class Dashboard extends Component {
                   onClick={() => this.onClick("pump")}
                 >
                   {this.setText("pump", "body")}
-                  {console.log(this.setText("pump", "body"))}
                 </Button>
               </article>
             </Card>
@@ -183,11 +257,7 @@ export default class Dashboard extends Component {
                   className="react-rainbow-admin-forms_logo"
                 />
 
-                {light ? (
-                  <h1>Light is currently ON</h1>
-                ) : (
-                  <h1>Light is currently OFF</h1>
-                )}
+                {this.setText("light", "title")}
               </div>
               <article className="textContainer">
                 <Button
@@ -196,11 +266,7 @@ export default class Dashboard extends Component {
                   variant="brand"
                   onClick={() => this.onClick("light")}
                 >
-                  {light ? (
-                    <span>Turn off the lights</span>
-                  ) : (
-                    <span>Turn on the lights</span>
-                  )}
+                  {this.setText("light", "body")}
                 </Button>
               </article>
             </Card>
@@ -212,11 +278,7 @@ export default class Dashboard extends Component {
                   alt="music"
                   className="react-rainbow-admin-forms_logo"
                 />
-                {sound ? (
-                  <h1>Music is currently ON</h1>
-                ) : (
-                  <h1>Music is currently OFF</h1>
-                )}
+                {this.setText("sound", "title")}
               </div>
               <article className="textContainer">
                 <Button
@@ -225,11 +287,7 @@ export default class Dashboard extends Component {
                   variant="brand"
                   onClick={() => this.onClick("sound")}
                 >
-                  {sound ? (
-                    <span>Turn off music</span>
-                  ) : (
-                    <span>Turn on music</span>
-                  )}
+                  {this.setText("sound", "body")}
                 </Button>
               </article>
             </Card>
@@ -240,7 +298,7 @@ export default class Dashboard extends Component {
                   alt="controller"
                   className="react-rainbow-admin-forms_logo"
                 />
-                <h1>The plants are facing {motor}° clockwise from center</h1>
+                {this.setText("motor", "title")}
               </div>
               <article className="textContainer">
                 <Button
@@ -249,7 +307,7 @@ export default class Dashboard extends Component {
                   variant="brand"
                   onClick={() => this.onClick("motor")}
                 >
-                  <span>Turn 90° clockwise</span>
+                  {this.setText("motor", "body")}
                 </Button>
               </article>
             </Card>
