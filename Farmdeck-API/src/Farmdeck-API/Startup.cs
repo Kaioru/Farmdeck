@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Farmdeck_API.Data;
 using Farmdeck_API.GraphQL;
 using Farmdeck_API.MQTT;
@@ -36,6 +37,18 @@ namespace Farmdeck_API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddSingleton<ISchema, FarmdeckSchema>();
 
@@ -56,9 +69,13 @@ namespace Farmdeck_API
             var client = new MqttFactory().CreateManagedMqttClient();
 
             services.AddSingleton<IndicatorHandler>();
-            services.AddHostedService<MQTTClientService>(s =>
-                new MQTTClientService(client, managedOptions, s)
-            );
+            services.AddSingleton<MQTTClientService>(s =>
+            {
+                var service = new MQTTClientService(client, managedOptions, s);
+
+                service.StartAsync(CancellationToken.None);
+                return service;
+            });
 
             services.AddControllers();
 
@@ -75,6 +92,7 @@ namespace Farmdeck_API
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            app.UseCors("AllowAll");
             app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

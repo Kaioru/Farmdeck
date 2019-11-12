@@ -1,0 +1,84 @@
+.react-rainbow-admin-forms_container {
+  padding: 0 40px;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-rainbow-admin-forms_section {
+  display: flex;
+  align-items: stretch;
+}
+
+.react-rainbow-admin-forms_card {
+  width: 100%;
+  flex-wrap: wrap;
+  height: 32vh;
+}
+
+.react-rainbow-admin-forms_card:not(:last-child) {
+  margin-right: 48px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 24px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.buttonGroup {
+  flex-direction: row;
+}
+.react-rainbow-admin-forms_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.react-rainbow-admin-forms_header h1 {
+  font-size: 1.2rem;
+  color: #061c3f;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.react-rainbow-admin-forms_logo {
+  width: 40%;
+  height: 40%;
+}
+
+@media (max-width: 1200px) {
+  .react-rainbow-admin-forms_container {
+    padding: 16px;
+  }
+
+  .react-rainbow-admin-forms_section {
+    flex-direction: column;
+    padding-top: 0;
+  }
+
+  .rainbow-rainbow-forms_button {
+    width: 100%;
+  }
+
+  .react-rainbow-admin-forms_section:last-child {
+    width: 100%;
+  }
+
+  .react-rainbow-admin-forms_card {
+    margin-top: 24px;
+    height: 40vh;
+  }
+
+  .rainbow-rainbow-forms_inputs-container > .rainbow-flex {
+    flex-direction: column;
+  }
+  .react-rainbow-admin-forms_logo {
+    width: 20%;
+    height: 20%;
+  }
+}

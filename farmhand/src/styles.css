@@ -1,0 +1,43 @@
+#container{
+    margin:20px;
+}
+
+.react-rainbow-global-header {
+    border-radius: 0.875rem 0.875rem 0 0;
+    border-bottom: 1px solid #e3e5ed; 
+}
+
+.react-rainbow-global-header-logo {
+    width: 30px;
+    height: 30px;
+}
+
+.react-rainbow-admin_header {
+    top: 0;
+    left: 0;
+    height: 68px;
+    width: 100vw;
+    z-index: 10000;
+    border-bottom: 1px solid #f4f6f9;
+}
+
+.react-rainbow-admin_header-logo {
+    width: 36px;
+    height: 36px;
+}
+
+.react-rainbow-admin_header-search {
+    width: 280px;
+}
+
+.react-rainbow-admin_header-actions {
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+
+#sidebarContainer{
+    width: '88px';
+    border-bottom-left-radius: '0.875rem';
+    border-radius: '1px solid #e3e5ed'
+}
