@@ -3,15 +3,17 @@ using System;
 using Farmdeck_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Farmdeck_API.Migrations
 {
     [DbContext(typeof(FarmdeckDbContext))]
-    partial class FarmdeckDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191125050034_AddAccountAndDeck")]
+    partial class AddAccountAndDeck
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +65,6 @@ namespace Farmdeck_API.Migrations
 
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("Token")
-                        .HasColumnType("uuid");
 
                     b.HasKey("ID");
 
