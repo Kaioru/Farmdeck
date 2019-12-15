@@ -18,6 +18,7 @@
           </e>
           <e p="Controllers" t="Include">
             <e p="AuthController.cs" t="Include" />
+            <e p="DeckController.cs" t="Include" />
           </e>
           <e p="Entities" t="Include">
             <e p="Context" t="Include">
@@ -31,6 +32,11 @@
           </e>
           <e p="Homestead.WebAPI.csproj" t="IncludeRecursive" />
           <e p="JWTConfig.cs" t="Include" />
+          <e p="Migrations" t="Include">
+            <e p="20191215135636_InitialMigration.cs" t="Include" />
+            <e p="20191215135636_InitialMigration.Designer.cs" t="Include" />
+            <e p="DatabaseContextModelSnapshot.cs" t="Include" />
+          </e>
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
               <e p="netcoreapp3.0" t="Include">

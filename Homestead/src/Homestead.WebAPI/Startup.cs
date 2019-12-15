@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using MQTTnet.AspNetCore;
 
 namespace Homestead.WebAPI
 {
@@ -55,6 +56,10 @@ namespace Homestead.WebAPI
                         IssuerSigningKey = new SymmetricSecurityKey(signingKey)
                     };
                 });
+            
+            services.AddHostedMqttServer(builder => builder.WithDefaultEndpointPort(1883));
+            services.AddMqttTcpServerAdapter();
+            services.AddMqttWebSocketServerAdapter();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +76,8 @@ namespace Homestead.WebAPI
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            app.UseMqttEndpoint();
         }
     }
 }
