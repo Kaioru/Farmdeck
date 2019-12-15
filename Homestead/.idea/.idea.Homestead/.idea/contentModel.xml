@@ -12,6 +12,7 @@
           <e p="appsettings.json" t="Include" />
           <e p="bin" t="ExcludeRecursive" />
           <e p="Contracts" t="Include">
+            <e p="DeckCreationContract.cs" t="Include" />
             <e p="LoginContract.cs" t="Include" />
             <e p="RegisterContract.cs" t="Include" />
             <e p="TokenContract.cs" t="Include" />

@@ -94,6 +94,7 @@ namespace Homestead.WebAPI.Controllers
             };
 
             await DatabaseContext.Users.AddAsync(user);
+            await DatabaseContext.SaveChangesAsync();
 
             return Ok(GetToken(user));
         }
