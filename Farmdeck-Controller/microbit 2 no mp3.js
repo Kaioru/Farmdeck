@@ -10,7 +10,7 @@ radio.onReceivedValue(function (name, value) {
             motor = 2
             basic.showIcon(IconNames.Giraffe)
         }
-    }  else if (name == "light") {
+    } else if (name == "light") {
         if (value == 0) {
             light = 0
             basic.showIcon(IconNames.No)
@@ -70,6 +70,6 @@ basic.forever(function () {
     } else {
         robotbit.Servo(robotbit.Servos.S1, light2)
     }
-    radio.sendValue("light", avglight)
+    radio.sendValue("avglight", avglight)
     basic.pause(2000)
 })

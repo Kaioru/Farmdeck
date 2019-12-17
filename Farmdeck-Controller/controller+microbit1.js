@@ -79,8 +79,8 @@ let flags = 0
 IFTTT_MQTT_Weather.WIFI_setup(
 SerialPin.P14,
 SerialPin.P15,
-"keith",
-"abc123456"
+"TP-LINK_3AED",
+"20858802"
 )
 IFTTT_MQTT_Weather.Obloq_mqtt_setup(
     "xatwrqxo",
