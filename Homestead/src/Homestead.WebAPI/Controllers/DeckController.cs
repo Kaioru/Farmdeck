@@ -67,7 +67,7 @@ namespace Homestead.WebAPI.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("")]
+        [Route("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var userId = Convert.ToInt32(
@@ -107,6 +107,70 @@ namespace Homestead.WebAPI.Controllers
             await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
             await _server.PublishAsync(id.ToString(), type + "-" + state);
             return Ok();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("{id}/indicators")]
+        public async Task<IActionResult> PostIndicator(Guid id, DeckIndicatorType type, float value)
+        {
+            var userId = Convert.ToInt32(
+                HttpContext.User.Claims
+                    .Single(c => c.Type == ClaimTypes.Sid)?.Value
+            );
+            var deck = await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
+            var indicator = new DeckIndicator
+            {
+                Deck = deck,
+                Type = type,
+                Value = value,
+                DateCreated = DateTime.UtcNow
+            };
+
+            await _context.DeckIndicators.AddAsync(indicator);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{id}/indicators/week")]
+        public async Task<IActionResult> GetIndicatorWeek(Guid id)
+        {
+            var userId = Convert.ToInt32(
+                HttpContext.User.Claims
+                    .Single(c => c.Type == ClaimTypes.Sid)?.Value
+            );
+            var week = DateTime.UtcNow.AddDays(-7);
+            var indicators = _context
+                .Decks
+                .Include(d => d.Indicators)
+                .First(d => d.Id == id && d.User.Id == userId)
+                .Indicators
+                .Where(i => i.DateCreated >= week);
+
+            return Ok(indicators);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{id}/indicators/month")]
+        public async Task<IActionResult> GetIndicatorMonth(Guid id)
+        {
+            var userId = Convert.ToInt32(
+                HttpContext.User.Claims
+                    .Single(c => c.Type == ClaimTypes.Sid)?.Value
+            );
+            var week = DateTime.UtcNow.AddDays(-31);
+            var indicators = _context
+                .Decks
+                .Include(d => d.Indicators)
+                .First(d => d.Id == id && d.User.Id == userId)
+                .Indicators
+                .Where(i => i.DateCreated >= week);
+
+            return Ok(indicators);
         }
     }
 }
