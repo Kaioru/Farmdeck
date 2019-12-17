@@ -79,7 +79,7 @@ namespace Homestead.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
