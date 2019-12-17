@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Farmdeck_API.Data.Entities
 {
@@ -6,8 +7,10 @@ namespace Farmdeck_API.Data.Entities
     {
         public int ID { get; set; }
 
-        public IndicatorType Type { get; set; }
-        public float Value { get; set; }
+        [Required] public Deck Deck { get; set; }
+
+        [Required] public IndicatorType Type { get; set; }
+        [Required] public float Value { get; set; }
 
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }

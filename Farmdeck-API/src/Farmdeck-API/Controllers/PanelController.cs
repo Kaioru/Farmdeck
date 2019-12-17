@@ -6,6 +6,7 @@ using MQTTnet.Extensions.ManagedClient;
 
 namespace Farmdeck_API.Controllers
 {
+    [ApiController]
     [Route("panel")]
     public class PanelController : Controller
     {
