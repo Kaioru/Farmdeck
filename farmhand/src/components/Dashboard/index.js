@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Card, Button } from "react-rainbow-components";
-import "./styles.css";
-import environment from "../../assets/icons/environment.svg";
-import lighthouse from "../../assets/icons/lighthouse.svg";
-import music from "../../assets/icons/music.svg";
-import controller from "../../assets/icons/controller.svg";
-import axios from "axios";
-import https from "https";
+import React, { Component } from 'react';
+import { Card, Button } from 'react-rainbow-components';
+import './styles.css';
+import environment from '../../assets/icons/environment.svg';
+import lighthouse from '../../assets/icons/lighthouse.svg';
+import music from '../../assets/icons/music.svg';
+import controller from '../../assets/icons/controller.svg';
+import axios from 'axios';
+import https from 'https';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export default class Dashboard extends Component {
   POST = async (name, state) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/panel/toggle",
+        'http://localhost:5000/panel/toggle',
         {
           type: name,
           state: state
@@ -47,17 +47,12 @@ export default class Dashboard extends Component {
   };
 
   onClick = async type => {
-    const {
-      pump,
-      light,
-      sound,
-      motor,
-    } = this.state;
-    let response;
+    const { pump, light, sound, motor } = this.state;
+    let response, count;
 
     switch (type) {
-      case "pump":
-        let count = pump + 1;
+      case 'pump':
+        count = pump + 1;
         this.setState({
           pumpIsLoading: true
         });
@@ -69,15 +64,15 @@ export default class Dashboard extends Component {
             pumpIsLoading: false
           });
         } else {
-          console.log("Error connecting to server");
+          console.log('Error connecting to server');
           this.setState({
             pumpIsLoading: false
           });
         }
 
         break;
-      case "light":
-        let count = light + 1;
+      case 'light':
+        count = light + 1;
         this.setState({
           lightIsLoading: true
         });
@@ -89,15 +84,15 @@ export default class Dashboard extends Component {
             lightIsLoading: false
           });
         } else {
-          console.log("Error connecting to server");
+          console.log('Error connecting to server');
           this.setState({
             lightIsLoading: false
           });
         }
         break;
 
-      case "sound":
-        let count = sound + 1;
+      case 'sound':
+        count = sound + 1;
         this.setState({
           soundIsLoading: true
         });
@@ -109,24 +104,24 @@ export default class Dashboard extends Component {
             soundIsLoading: false
           });
         } else {
-          console.log("Error connecting to server");
+          console.log('Error connecting to server');
           this.setState({
             soundIsLoading: false
           });
         }
-      case "motor":
-        let count = motor + 1;
+      case 'motor':
+        count = motor + 1;
         this.setState({
-          motorIsLoading:true;
-        })
-        response = await this.POST(type, count % 3;
+          motorIsLoading: true
+        });
+        response = await this.POST(type, count % 3);
         if (response === 200) {
           this.setState({
-            motor: count + 1;
-            motorIsLoading: false;
+            motor: count + 1,
+            motorIsLoading: false
           });
         } else {
-          console.log("Error connecting to server");
+          console.log('Error connecting to server');
           this.setState({
             motorIsLoading: false
           });
@@ -140,8 +135,8 @@ export default class Dashboard extends Component {
   setText = (type, text) => {
     const { pump, light, sound, motor } = this.state;
     switch (type) {
-      case "pump":
-        if (text === "title") {
+      case 'pump':
+        if (text === 'title') {
           if (pump !== 0) {
             return <h1>Last watering: 0 days</h1>;
           } else {
@@ -157,16 +152,15 @@ export default class Dashboard extends Component {
           }
         }
         break;
-      case "light":
-        if (text === "title") {
+      case 'light':
+        if (text === 'title') {
           if (light % 3 === 0) {
             return <h1>Light is OFF</h1>;
-          } else if (light % 3 === 1){
+          } else if (light % 3 === 1) {
             return <h1>Light is ON</h1>;
-          } else if (light % 3 === 2){
+          } else if (light % 3 === 2) {
             return <h1>Light is automatic</h1>;
           }
-          
         } else {
           if (light % 3 === 0) {
             return <span>Turn on lights</span>;
@@ -178,16 +172,15 @@ export default class Dashboard extends Component {
         }
         break;
 
-      case "sound":
-        if (text === "title") {
+      case 'sound':
+        if (text === 'title') {
           if (sound % 3 === 0) {
             return <h1>Sound is OFF</h1>;
-          } else if (sound % 3 === 1){
+          } else if (sound % 3 === 1) {
             return <h1>Sound is ON</h1>;
-          } else if (sound % 3 === 2){
+          } else if (sound % 3 === 2) {
             return <h1>Sound is automatic</h1>;
           }
-          
         } else {
           if (sound % 3 === 0) {
             return <span>Turn on sound</span>;
@@ -198,13 +191,13 @@ export default class Dashboard extends Component {
           }
         }
         break;
-      case "motor":
-        if (text === "title") {
+      case 'motor':
+        if (text === 'title') {
           if (motor % 3 === 0) {
             return <h1>Motor is OFF</h1>;
-          } else if (motor % 3 === 1){
+          } else if (motor % 3 === 1) {
             return <h1>Motor is ON</h1>;
-          } else if (motor % 3 === 2){
+          } else if (motor % 3 === 2) {
             return <h1>Motor is automatic</h1>;
           }
         } else {
@@ -223,19 +216,15 @@ export default class Dashboard extends Component {
     }
   };
   render() {
-    const { pump, pumpIsLoading, light, sound, motor } = this.state;
+    const { pump, pumpIsLoading, light, lightIsLoading, sound, soundIsLoading, motor, motorIsLoading } = this.state;
     return (
       <div className="react-rainbow-admin-forms_container rainbow-background-color_gray-1">
         <div>
           <section className="react-rainbow-admin-forms_section">
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
-                <img
-                  src={environment}
-                  alt="environment"
-                  className="react-rainbow-admin-forms_logo"
-                />
-                {this.setText("pump", "title")}
+                <img src={environment} alt="environment" className="react-rainbow-admin-forms_logo" />
+                {this.setText('pump', 'title')}
               </div>
               <article className="textContainer">
                 <Button
@@ -243,71 +232,62 @@ export default class Dashboard extends Component {
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("pump")}
+                  onClick={() => this.onClick('pump')}
                 >
-                  {this.setText("pump", "body")}
+                  {this.setText('pump', 'body')}
                 </Button>
               </article>
             </Card>
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
-                <img
-                  src={lighthouse}
-                  alt="lighthouse"
-                  className="react-rainbow-admin-forms_logo"
-                />
+                <img src={lighthouse} alt="lighthouse" className="react-rainbow-admin-forms_logo" />
 
-                {this.setText("light", "title")}
+                {this.setText('light', 'title')}
               </div>
               <article className="textContainer">
                 <Button
+                  isLoading={lightIsLoading}
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("light")}
+                  onClick={() => this.onClick('light')}
                 >
-                  {this.setText("light", "body")}
+                  {this.setText('light', 'body')}
                 </Button>
               </article>
             </Card>
 
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
-                <img
-                  src={music}
-                  alt="music"
-                  className="react-rainbow-admin-forms_logo"
-                />
-                {this.setText("sound", "title")}
+                <img src={music} alt="music" className="react-rainbow-admin-forms_logo" />
+                {this.setText('sound', 'title')}
               </div>
               <article className="textContainer">
                 <Button
+                  isLoading={soundIsLoading}
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("sound")}
+                  onClick={() => this.onClick('sound')}
                 >
-                  {this.setText("sound", "body")}
+                  {this.setText('sound', 'body')}
                 </Button>
               </article>
             </Card>
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
-                <img
-                  src={controller}
-                  alt="controller"
-                  className="react-rainbow-admin-forms_logo"
-                />
-                {this.setText("motor", "title")}
+                <img src={controller} alt="controller" className="react-rainbow-admin-forms_logo" />
+                {this.setText('motor', 'title')}
               </div>
               <article className="textContainer">
                 <Button
+                  isLoading={motorIsLoading}
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("motor")}
+                  onClick={() => this.onClick('motor')}
                 >
-                  {this.setText("motor", "body")}
+                  {this.setText('motor', 'body')}
                 </Button>
               </article>
             </Card>
