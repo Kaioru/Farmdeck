@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import '../app.dart';
+import '../app_state.dart';
 import '../settings.dart';
 
 class Login extends StatefulWidget {
@@ -68,6 +70,11 @@ class _Login extends State<Login> {
                     }));
 
                 if (response.statusCode == 200) {
+                  var token = json.decode(response.body)['token'];
+                  Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => App(AppState(token))));
                 } else {
                   showCupertinoDialog(
                       context: context,
@@ -100,6 +107,11 @@ class _Login extends State<Login> {
                     }));
 
                 if (response.statusCode == 200) {
+                  var token = json.decode(response.body)['token'];
+                  Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => App(AppState(token))));
                 } else {
                   showCupertinoDialog(
                       context: context,
