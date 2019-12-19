@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import './pages/deck_tab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -55,12 +56,20 @@ class _App extends State<App> {
                 delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                   return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => DeckTab(state, decks[index]),
+                                    title: decks[index].name));
+                    },
                     child: Container(
                       child: Container(
                         padding: EdgeInsets.all(13.0),
                         child: Row(
                           children: <Widget>[
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
@@ -70,7 +79,7 @@ class _App extends State<App> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text(decks[index].id.substring(20),
+                                Text('..' + decks[index].id.substring(20),
                                     style: TextStyle(
                                         fontSize: 12.0, color: Colors.black54))
                               ],
