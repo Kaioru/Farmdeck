@@ -35,7 +35,7 @@ namespace Homestead.WebAPI.Controllers
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
             );
             var res = _context.Decks.Where(d => d.User.Id == userId);
-            return Ok(res);
+            return Json(res);
         }
 
         [Authorize]
@@ -75,7 +75,7 @@ namespace Homestead.WebAPI.Controllers
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
             );
             var deck = await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
-            return Ok(deck);
+            return Json(deck);
         }
 
         [Authorize]
@@ -150,7 +150,7 @@ namespace Homestead.WebAPI.Controllers
                 .Indicators
                 .Where(i => i.DateCreated >= week);
 
-            return Ok(indicators);
+            return Json(indicators);
         }
 
         [Authorize]
@@ -170,7 +170,7 @@ namespace Homestead.WebAPI.Controllers
                 .Indicators
                 .Where(i => i.DateCreated >= week);
 
-            return Ok(indicators);
+            return Json(indicators);
         }
     }
 }

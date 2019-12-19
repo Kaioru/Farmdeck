@@ -73,7 +73,7 @@ namespace Homestead.WebAPI.Controllers
             if (user == null || !BCrypt.Net.BCrypt.Verify(contract.Password, user.Password))
                 return Unauthorized("Failed to authenticate");
 
-            return Ok(GetToken(user));
+            return Json(GetToken(user));
         }
 
         [HttpPost]
@@ -96,7 +96,7 @@ namespace Homestead.WebAPI.Controllers
             await DatabaseContext.Users.AddAsync(user);
             await DatabaseContext.SaveChangesAsync();
 
-            return Ok(GetToken(user));
+            return Json(GetToken(user));
         }
 
         [Authorize]
@@ -110,7 +110,7 @@ namespace Homestead.WebAPI.Controllers
             );
             var user = await DatabaseContext.Users
                 .FirstAsync(a => a.Id == id);
-            return Ok(GetToken(user));
+            return Json(GetToken(user));
         }
     }
 }
