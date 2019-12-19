@@ -68,6 +68,7 @@ class _App extends State<App> {
                         padding: EdgeInsets.all(13.0),
                         child: Row(
                           children: <Widget>[
+                            Image.asset('assets/images/big-black-deck.png'),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,

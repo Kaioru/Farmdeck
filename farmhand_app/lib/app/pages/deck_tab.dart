@@ -1,3 +1,5 @@
+import 'package:farmhand_app/app/pages/deck_settings.dart';
+
 import '../core/deck.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +62,10 @@ class _DeckTab extends State<DeckTab> with WidgetsBindingObserver {
               icon: Icon(Icons.multiline_chart),
               title: Text('Stats'),
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
           ],
         ),
         tabBuilder: (BuildContext context, int index) {
@@ -80,6 +86,12 @@ class _DeckTab extends State<DeckTab> with WidgetsBindingObserver {
               return CupertinoTabView(
                 builder: (BuildContext context) => DeckStats(state),
                 defaultTitle: 'Stats',
+              );
+              break;
+            case 3:
+              return CupertinoTabView(
+                builder: (BuildContext context) => DeckSettings(state, deck),
+                defaultTitle: 'Settings',
               );
               break;
           }
