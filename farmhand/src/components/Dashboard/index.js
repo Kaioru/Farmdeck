@@ -29,108 +29,83 @@ export default class Dashboard extends Component {
   }
 
   POST = async (name, state) => {
+    let isLoading = name + "IsLoading";
+    this.setState({
+      [isLoading]: true
+    });
     try {
-      const response = await axios.post(
+      const response = 200; /*await axios.post(
         "http://localhost:5000/panel/toggle",
         {
           type: name,
           state: state
         },
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
-      );
-      this.setState({
-        response: response
-      });
-      return true;
+      );*/
+      if (response === 200) {
+        this.setState({
+          [name]: state,
+          [isLoading]: false
+        });
+      } else {
+        console.log("Error connecting to server");
+        this.setState({
+          [isLoading]: false
+        });
+      }
     } catch (err) {
       return false;
     }
   };
 
-  callbackFunction = childData => {
-    this.setState({ transcript: childData });
+  receiveText = text => {
+    let pump = text.includes("pump") || text.includes("water");
+    let light = text.includes("lights") || text.includes("light");
+    let sound = text.includes("sound") || text.includes("music");
+    let motor = text.includes("motor") || text.includes("gear");
+    this.setState({ transcript: text });
+
+    if (text.includes("on")) {
+      if (pump) this.POST("pump", 1);
+      else if (light) this.POST("light", 1);
+      else if (sound) this.POST("sound", 1);
+      else if (motor) this.POST("motor", 1);
+    } else if (text.includes("automate") || text.includes("automatic")) {
+      if (pump) this.POST("pump", 2);
+      else if (light) this.POST("light", 2);
+      else if (sound) this.POST("sound", 2);
+      else if (motor) this.POST("motor", 2);
+    } else if (text.includes("off")) {
+      if (pump) this.POST("pump", 0);
+      else if (light) this.POST("light", 0);
+      else if (sound) this.POST("sound", 0);
+      else if (motor) this.POST("motor", 0);
+    }
   };
 
   onClick = async type => {
     const { pump, light, sound, motor } = this.state;
-    let response, count;
+    let count;
 
     switch (type) {
       case "pump":
         count = pump + 1;
-        this.setState({
-          pumpIsLoading: true
-        });
-
-        response = await this.POST(type, count % 3);
-        if (response.status === 200) {
-          this.setState({
-            pump: count,
-            pumpIsLoading: false
-          });
-        } else {
-          console.log("Error connecting to server");
-          this.setState({
-            pumpIsLoading: false
-          });
-        }
-
+        this.POST("pump", count % 3);
         break;
+
       case "light":
         count = light + 1;
-        this.setState({
-          lightIsLoading: true
-        });
-
-        response = await this.POST(type, count % 3);
-        if (response.status === 200) {
-          this.setState({
-            light: count,
-            lightIsLoading: false
-          });
-        } else {
-          console.log("Error connecting to server");
-          this.setState({
-            lightIsLoading: false
-          });
-        }
+        this.POST("light", count % 3);
         break;
 
       case "sound":
         count = sound + 1;
-        this.setState({
-          soundIsLoading: true
-        });
+        this.POST("sound", count % 3);
+        break;
 
-        response = await this.POST(type, count % 3);
-        if (response.status === 200) {
-          this.setState({
-            sound: count,
-            soundIsLoading: false
-          });
-        } else {
-          console.log("Error connecting to server");
-          this.setState({
-            soundIsLoading: false
-          });
-        }
       case "motor":
         count = motor + 1;
-        this.setState({
-          motorIsLoading: true
-        });
-        response = await this.POST(type, count % 3);
-        if (response === 200) {
-          this.setState({
-            motor: count + 1,
-            motorIsLoading: false
-          });
-        } else {
-          console.log("Error connecting to server");
-          this.setState({
-            motorIsLoading: false
-          });
-        }
+        this.POST("motor", count % 3);
         break;
       default:
         break;
@@ -142,18 +117,20 @@ export default class Dashboard extends Component {
     switch (type) {
       case "pump":
         if (text === "title") {
-          if (pump !== 0) {
-            return <h1>Last watering: 0 days</h1>;
-          } else {
-            return <h1>Last watering: 2 days</h1>;
+          if (pump % 3 === 0) {
+            return <h1>Pump is OFF</h1>;
+          } else if (pump % 3 === 1) {
+            return <h1>Pump is ON</h1>;
+          } else if (pump % 3 === 2) {
+            return <h1>Pump is automatic</h1>;
           }
         } else {
           if (pump % 3 === 0) {
-            return <span>Turn on watering</span>;
+            return <span>Turn on pump</span>;
           } else if (pump % 3 === 1) {
-            return <span>Automate watering</span>;
+            return <span>Automate pump</span>;
           } else if (pump % 3 === 2) {
-            return <span>Turn off watering</span>;
+            return <span>Turn off pump</span>;
           }
         }
         break;
@@ -322,7 +299,7 @@ export default class Dashboard extends Component {
             </Card>
           </section>
           <section className="rainbow-background-color_gray-1">
-            <Dictaphone callbackFunction={this.callbackFunction}></Dictaphone>
+            <Dictaphone callbackFunction={this.receiveText}></Dictaphone>
             <span>{transcript}</span>
           </section>
         </div>
