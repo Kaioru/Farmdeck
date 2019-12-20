@@ -80,7 +80,7 @@ class _DeckVoice extends State<DeckVoice> {
                           if (!recording) {
                             recording = true;
                             speech.listen(onResult: (result) {
-                              setState(() {
+                              setState(() async {
                                 inputText = result.recognizedWords;
                                 if (!result.finalResult) return;
                                 var input = inputText.toLowerCase().split(" ");
@@ -120,12 +120,12 @@ class _DeckVoice extends State<DeckVoice> {
 
                                   var uri = Uri.http(
                                       Settings.API_URL,
-                                      "/decks/" + deck.id + "/toggle/" + type ==
-                                              'water'
-                                          ? 'pump'
-                                          : type);
+                                      "/decks/" +
+                                          deck.id +
+                                          "/toggle/" +
+                                          (type == 'water' ? 'pump' : type));
 
-                                  http.post(uri.toString(),
+                                  await http.post(uri.toString(),
                                       headers: {
                                         'Content-Type': "application/json",
                                         'Authorization': 'Bearer ' + state.token
