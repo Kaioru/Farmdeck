@@ -80,63 +80,63 @@ class _DeckVoice extends State<DeckVoice> {
                           if (!recording) {
                             recording = true;
                             speech.listen(onResult: (result) {
-                              setState(() async {
+                              setState(() {
                                 inputText = result.recognizedWords;
-                                if (!result.finalResult) return;
-                                var input = inputText.toLowerCase().split(" ");
-
-                                var type = "";
-                                var newState = -1;
-
-                                if (input.contains("light") ||
-                                    input.contains("lights"))
-                                  type = "light";
-                                else if (input.contains("water") ||
-                                    input.contains("watering"))
-                                  type = "water";
-                                else if (input.contains("motor") ||
-                                    input.contains("servo") ||
-                                    input.contains("turn"))
-                                  type = "motor";
-                                else if (input.contains("sound") ||
-                                    input.contains("sounds") ||
-                                    input.contains("music")) type = "sound";
-
-                                if (input.contains("on"))
-                                  newState = 1;
-                                else if (input.contains("off"))
-                                  newState = 0;
-                                else if (input.contains("auto")) newState = 2;
-
-                                if (newState > -1 && type != "") {
-                                  setState(() {
-                                    inputText = "setting the " +
-                                        type +
-                                        "s to " +
-                                        (newState == 1
-                                            ? "on"
-                                            : (newState == 0 ? "off" : "auto"));
-                                  });
-
-                                  var uri = Uri.http(
-                                      Settings.API_URL,
-                                      "/decks/" +
-                                          deck.id +
-                                          "/toggle/" +
-                                          (type == 'water' ? 'pump' : type));
-
-                                  await http.post(uri.toString(),
-                                      headers: {
-                                        'Content-Type': "application/json",
-                                        'Authorization': 'Bearer ' + state.token
-                                      },
-                                      body: json.encode({'state': newState}));
-                                } else {
-                                  setState(() {
-                                    inputText = "i don't understand..";
-                                  });
-                                }
                               });
+
+                              if (!result.finalResult) return;
+                              var input = inputText.toLowerCase().split(" ");
+
+                              var type = "";
+                              var newState = -1;
+
+                              if (input.contains("light") ||
+                                  input.contains("lights"))
+                                type = "light";
+                              else if (input.contains("water") ||
+                                  input.contains("watering"))
+                                type = "water";
+                              else if (input.contains("motor") ||
+                                  input.contains("servo") ||
+                                  input.contains("turn"))
+                                type = "motor";
+                              else if (input.contains("sound") ||
+                                  input.contains("sounds") ||
+                                  input.contains("music")) type = "sound";
+
+                              if (input.contains("on"))
+                                newState = 1;
+                              else if (input.contains("off"))
+                                newState = 0;
+                              else if (input.contains("auto")) newState = 2;
+
+                              if (newState > -1 && type != "") {
+                                setState(() {
+                                  inputText = "setting the " +
+                                      type +
+                                      "s to " +
+                                      (newState == 1
+                                          ? "on"
+                                          : (newState == 0 ? "off" : "auto"));
+                                });
+
+                                var uri = Uri.http(Settings.API_URL,
+                                    "/decks/" + deck.id + "/toggle");
+
+                                http.post(uri.toString(),
+                                    headers: {
+                                      'Content-Type': "application/json",
+                                      'Authorization': 'Bearer ' + state.token
+                                    },
+                                    body: json.encode({
+                                      'type': (type == 'water' ? 'pump' : type),
+                                      'state': newState
+                                    }));
+                              } else {
+                                setState(() {
+                                  inputText = "i don't understand..";
+                                });
+                              }
                             });
                           } else {
                             recording = false;

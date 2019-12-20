@@ -98,15 +98,15 @@ namespace Homestead.WebAPI.Controllers
 
         [Authorize]
         [HttpPost]
-        [Route("{id}/toggle/{type}")]
-        public async Task<IActionResult> ToggleComponent(Guid id, string type, int state)
+        [Route("{id}/toggle")]
+        public async Task<IActionResult> ToggleComponent(Guid id, DeckToggleContract contract)
         {
             var userId = Convert.ToInt32(
                 HttpContext.User.Claims
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
             );
             await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
-            await _client.Client.PublishAsync(id.ToString(), type + "-" + state);
+            await _client.Client.PublishAsync(id.ToString(), contract.Type + "-" + contract.State);
             return Ok();
         }
 

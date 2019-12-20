@@ -39,15 +39,15 @@ class _DeckControlButton extends State<DeckControlButton> {
 
     var newState = auto ? 2 : control ? 1 : 0;
 
-    var uri = Uri.http(Settings.API_URL,
-        "/decks/" + deck.id + "/toggle/" + (type == 'water' ? 'pump' : type));
+    var uri = Uri.http(Settings.API_URL, "/decks/" + deck.id + "/toggle");
 
     await http.post(uri.toString(),
         headers: {
           'Content-Type': "application/json",
           'Authorization': 'Bearer ' + state.token
         },
-        body: json.encode({'state': newState}));
+        body: json.encode(
+            {'type': (type == 'water' ? 'pump' : type), 'state': newState}));
     await Future.delayed(Duration(seconds: 1));
 
     setState(() {
