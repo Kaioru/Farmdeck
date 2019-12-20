@@ -1,32 +1,42 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import SpeechRecognition from 'react-speech-recognition';
+import React, { Component } from "react";
+import SpeechRecognition from "react-speech-recognition";
+import { Button } from "react-rainbow-components";
 
-const propTypes = {
-  // Props injected by SpeechRecognition
-  transcript: PropTypes.string,
-  resetTranscript: PropTypes.func,
-  browserSupportsSpeechRecognition: PropTypes.bool
-};
+class Dictaphone extends Component {
+  onClick = () => {
+    const { listening, startListening } = this.props;
+    return listening ? this.sendData : startListening;
+  };
+  sendData = () => {
+    const { callbackFunction, transcript, stopListening } = this.props;
+    stopListening();
+    return callbackFunction(transcript);
+  };
+  render() {
+    const {
+      resetTranscript,
+      browserSupportsSpeechRecognition,
+      listening
+    } = this.props;
 
-const Dictaphone = ({ transcript, resetTranscript, browserSupportsSpeechRecognition }) => {
-  if (!browserSupportsSpeechRecognition) {
-    return null;
+    if (!browserSupportsSpeechRecognition) {
+      return null;
+    }
+
+    return (
+      <div>
+        <Button onClick={resetTranscript}>Reset</Button>
+        {listening ? (
+          <Button onClick={this.onClick()}>Stop</Button>
+        ) : (
+          <Button onClick={this.onClick()}>Start</Button>
+        )}
+      </div>
+    );
   }
-
-  return (
-    <div>
-      <button onClick={resetTranscript}>Reset</button>
-      <span>{transcript}</span>
-    </div>
-  );
-};
-
+}
 const options = {
   autoStart: false,
-  continuous: false
+  continuous: true
 };
-Dictaphone.propTypes = propTypes;
-
 export default SpeechRecognition(options)(Dictaphone);
-completecompoletecompletecompletecompletecompletecmopletecompoetecompoetecompllllplplplp;
