@@ -13,6 +13,7 @@
           <e p="bin" t="ExcludeRecursive" />
           <e p="Contracts" t="Include">
             <e p="DeckCreationContract.cs" t="Include" />
+            <e p="DeckToggleContract.cs" t="Include" />
             <e p="LoginContract.cs" t="Include" />
             <e p="RegisterContract.cs" t="Include" />
             <e p="TokenContract.cs" t="Include" />
@@ -37,6 +38,13 @@
             <e p="20191215135636_InitialMigration.cs" t="Include" />
             <e p="20191215135636_InitialMigration.Designer.cs" t="Include" />
             <e p="DatabaseContextModelSnapshot.cs" t="Include" />
+          </e>
+          <e p="MQTT" t="Include">
+            <e p="Handlers" t="Include">
+              <e p="IndicatorHandler.cs" t="Include" />
+            </e>
+            <e p="IMQTTHandler.cs" t="Include" />
+            <e p="MQTTClientService.cs" t="Include" />
           </e>
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
