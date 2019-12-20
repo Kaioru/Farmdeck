@@ -26,8 +26,10 @@ class _DeckControl extends State<DeckControl> {
       child: CustomScrollView(slivers: <Widget>[
         SliverList(
           delegate: SliverChildListDelegate([
-            DeckControlButton(state, deck, 'light', 'O\' Lord giveth us light!'),
-            DeckControlButton(state, deck, 'water', 'Came through drippin\', drip drip.'),
+            DeckControlButton(
+                state, deck, 'light', 'O\' Lord giveth us light!'),
+            DeckControlButton(
+                state, deck, 'water', 'Came through drippin\', drip drip.'),
             DeckControlButton(state, deck, 'sound', 'Get ready your escoots.'),
             DeckControlButton(state, deck, 'motor', 'Vroo vroo! Rotate-o-sa!'),
           ]),

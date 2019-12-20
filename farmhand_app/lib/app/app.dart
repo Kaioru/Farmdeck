@@ -58,10 +58,11 @@ class _App extends State<App> {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => DeckTab(state, decks[index]),
-                                    title: decks[index].name));
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) =>
+                                  DeckTab(state, decks[index]),
+                              title: decks[index].name));
                     },
                     child: Container(
                       child: Container(
