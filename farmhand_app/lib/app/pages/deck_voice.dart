@@ -1,26 +1,34 @@
+import 'dart:convert';
+
+import 'package:farmhand_app/app/core/deck.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../app_state.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
+import '../settings.dart';
+
 class DeckVoice extends StatefulWidget {
   final AppState state;
+  final Deck deck;
 
-  DeckVoice(this.state);
+  DeckVoice(this.state, this.deck);
 
   @override
-  State<StatefulWidget> createState() => _DeckVoice(state);
+  State<StatefulWidget> createState() => _DeckVoice(state, deck);
 }
 
 class _DeckVoice extends State<DeckVoice> {
   final AppState state;
+  final Deck deck;
   final speech = stt.SpeechToText();
 
   bool recording = false;
   String inputText = "";
   String finalInputText = "";
 
-  _DeckVoice(this.state);
+  _DeckVoice(this.state, this.deck);
 
   @override
   void initState() {
@@ -109,6 +117,20 @@ class _DeckVoice extends State<DeckVoice> {
                                             ? "on"
                                             : (newState == 0 ? "off" : "auto"));
                                   });
+
+                                  var uri = Uri.http(
+                                      Settings.API_URL,
+                                      "/decks/" + deck.id + "/toggle/" + type ==
+                                              'water'
+                                          ? 'pump'
+                                          : type);
+
+                                  http.post(uri.toString(),
+                                      headers: {
+                                        'Content-Type': "application/json",
+                                        'Authorization': 'Bearer ' + state.token
+                                      },
+                                      body: json.encode({'state': newState}));
                                 } else {
                                   setState(() {
                                     inputText = "i don't understand..";

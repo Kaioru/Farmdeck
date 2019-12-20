@@ -78,7 +78,7 @@ class _DeckTab extends State<DeckTab> with WidgetsBindingObserver {
               break;
             case 1:
               return CupertinoTabView(
-                builder: (BuildContext context) => DeckVoice(state),
+                builder: (BuildContext context) => DeckVoice(state, deck),
                 defaultTitle: 'Voice',
               );
               break;

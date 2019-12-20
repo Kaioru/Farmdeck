@@ -39,7 +39,8 @@ class _DeckControlButton extends State<DeckControlButton> {
 
     var newState = auto ? 2 : control ? 1 : 0;
 
-    var uri = Uri.http(Settings.API_URL, "/decks/" + deck.id + "/toggle/" + type == 'water' ? 'pump' : type);
+    var uri = Uri.http(Settings.API_URL,
+        "/decks/" + deck.id + "/toggle/" + type == 'water' ? 'pump' : type);
 
     await http.post(uri.toString(),
         headers: {
