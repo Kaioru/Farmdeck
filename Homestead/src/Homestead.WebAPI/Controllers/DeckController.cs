@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Homestead.WebAPI.Contracts;
 using Homestead.WebAPI.Entities;
 using Homestead.WebAPI.Entities.Context;
+using Homestead.WebAPI.MQTT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MQTTnet.Server;
+using MQTTnet.Extensions.ManagedClient;
 
 namespace Homestead.WebAPI.Controllers
 {
@@ -16,12 +17,12 @@ namespace Homestead.WebAPI.Controllers
     [Route("decks")]
     public class DeckController : Controller
     {
-        private IMqttServer _server;
+        private MQTTClientService _client;
         private DatabaseContext _context;
 
-        public DeckController(IMqttServer server, DatabaseContext context)
+        public DeckController(MQTTClientService client, DatabaseContext context)
         {
-            _server = server;
+            _client = client;
             _context = context;
         }
 
@@ -35,7 +36,7 @@ namespace Homestead.WebAPI.Controllers
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
             );
             var res = _context.Decks.Where(d => d.User.Id == userId);
-            return Ok(res);
+            return Json(res);
         }
 
         [Authorize]
@@ -75,7 +76,7 @@ namespace Homestead.WebAPI.Controllers
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
             );
             var deck = await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
-            return Ok(deck);
+            return Json(deck);
         }
 
         [Authorize]
@@ -98,14 +99,14 @@ namespace Homestead.WebAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("{id}/toggle")]
-        public async Task<IActionResult> ToggleComponent(Guid id, string type, int state)
+        public async Task<IActionResult> ToggleComponent(Guid id, DeckToggleContract contract)
         {
             var userId = Convert.ToInt32(
                 HttpContext.User.Claims
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
             );
             await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
-            await _server.PublishAsync(id.ToString(), type + "-" + state);
+            await _client.Client.PublishAsync(id.ToString(), contract.Type + "-" + contract.State);
             return Ok();
         }
 
@@ -150,7 +151,7 @@ namespace Homestead.WebAPI.Controllers
                 .Indicators
                 .Where(i => i.DateCreated >= week);
 
-            return Ok(indicators);
+            return Json(indicators);
         }
 
         [Authorize]
@@ -170,7 +171,7 @@ namespace Homestead.WebAPI.Controllers
                 .Indicators
                 .Where(i => i.DateCreated >= week);
 
-            return Ok(indicators);
+            return Json(indicators);
         }
     }
 }
