@@ -71,7 +71,7 @@ export default class SidebarContainer extends Component {
         <div className="react-rainbow-admin-app_router-container">
           <div className="mainContainer">
             <Switch>
-              <Route exact="/home" path="/home" component={Dashboard} />
+              <Redirect from="/home" exact to="/home/dashboard" />
               <Route path="/home/charts" component={Charts} />
               <Route path="/home/dashboard" component={Dashboard} />
             </Switch>

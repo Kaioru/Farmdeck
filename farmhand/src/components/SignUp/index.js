@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { Input, Card, Button } from "react-rainbow-components";
-import "./media-queries.css";
-import "./styles.css";
 import axios from "axios";
 import https from "https";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import "./media-queries.css";
+import "./styles.css";
+
+const propTypes = {
+  auth: PropTypes.string,
+  authSwitch: PropTypes.func
+};
+
 const INITIAL_STATE = {
   username: "",
   password: "",
@@ -29,12 +36,21 @@ const SignUpPage = () => (
 );
 
 class SignUpFormBase extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { ...INITIAL_STATE };
+    console.log(this.props);
+  }
+
   POST = async (name, pass, confirmPass) => {
+    const { auth } = this.props;
+
+    console.log(auth);
     this.setState({
       submitting: true
     });
     try {
-      const response = await axios.post(
+      const response = 200; /*await axios.post(
         "http://localhost:5001/auth/register",
         {
           Username: name,
@@ -42,8 +58,8 @@ class SignUpFormBase extends Component {
           ConfirmPassword: confirmPass
         },
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
-      );
-      if (response.status === 200) {
+      );*/
+      if (response === 200) {
         alert("Signed up!!!");
         this.setState({
           submitting: false
@@ -58,10 +74,6 @@ class SignUpFormBase extends Component {
       return false;
     }
   };
-  constructor(props) {
-    super(props);
-    this.state = { ...INITIAL_STATE };
-  }
 
   onSubmit = event => {
     const { username, password, confirmPassword, errors } = this.state;
@@ -168,7 +180,7 @@ class SignUpFormBase extends Component {
     );
   }
 }
-
+SignUpFormBase.propTypes = propTypes;
 const SignUpForm = SignUpFormBase;
 
 const SignInLink = () => (

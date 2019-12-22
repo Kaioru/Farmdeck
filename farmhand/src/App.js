@@ -1,17 +1,27 @@
-import React from "react";
-import Home from "./components/Home";
-import SectionHeading from "./components/SectionHeading";
+import React, { Component } from "react";
 import "./styles.css";
-import SignUpPage from "./components/SignUp";
-import { navigateTo } from "./history";
 import Routes from "./routes";
 
-function App() {
-  return (
-    <div>
-      <Routes />
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      auth: false
+    };
+  }
+
+  authSwitch = () => {
+    this.setState(state => ({ auth: !state.auth }));
+  };
+
+  render() {
+    console.log(this.state.auth);
+    return (
+      <div>
+        <Routes authSwitch={() => this.authSwitch()} auth={this.state.auth} />
+      </div>
+    );
+  }
 }
 
 export default App;
