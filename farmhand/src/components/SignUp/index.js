@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Input, Card, Button } from "react-rainbow-components";
 import "./media-queries.css";
-import { navigateTo } from "../../history";
 import "./styles.css";
 import axios from "axios";
 import https from "https";
-
+import { Link } from "react-router-dom";
 const INITIAL_STATE = {
   username: "",
   password: "",
@@ -172,7 +171,11 @@ class SignUpFormBase extends Component {
 
 const SignUpForm = SignUpFormBase;
 
-const SignInLink = () => <p>Already have an account?</p>;
+const SignInLink = () => (
+  <p>
+    Already have an account? <Link to={"/signin"}>Sign In!</Link>
+  </p>
+);
 
 export default SignUpPage;
 export { SignUpForm, SignInLink };

@@ -11,7 +11,7 @@ export default function SectionHeading() {
       />
       <section className="rainbow-flex rainbow-align_center react-rainbow-admin_header-actions">
         <Button
-          label="Log In"
+          label="Sign In"
           onClick={() => alert("clicked!")}
           variant="brand"
           className="rainbow-m-around_medium"
