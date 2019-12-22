@@ -34,15 +34,15 @@ export default class Dashboard extends Component {
       [isLoading]: true
     });
     try {
-      const response = 200; /*await axios.post(
-        "http://localhost:5000/panel/toggle",
+      const response = await axios.post(
+        "http://localhost:5001/panel/toggle",
         {
           type: name,
           state: state
         },
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
-      );*/
-      if (response === 200) {
+      );
+      if (response.status === 200) {
         this.setState({
           [name]: state,
           [isLoading]: false

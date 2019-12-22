@@ -1,0 +1,16 @@
+.signUpCard {
+  display: flex;
+  flex-direction: column;
+  display: -ms-flexbox;
+  width: 720px;
+  -ms-flex-align: center;
+  margin-top: 68px;
+}
+
+.signUpCardTitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: rgb(87, 101, 116);
+  font-family: "Lato";
+  margin: 20px;
+}

@@ -1,15 +1,15 @@
 import React from "react";
+import Home from "./components/Home";
 import SectionHeading from "./components/SectionHeading";
-import SidebarContainer from "./components/SidebarContainer";
-import Application from "react-rainbow-components";
-
 import "./styles.css";
+import SignUpPage from "./components/SignUp";
+import { navigateTo } from "./history";
+import Routes from "./routes";
 
 function App() {
   return (
     <div>
-      <SectionHeading />
-      <SidebarContainer />
+      <Routes />
     </div>
   );
 }
