@@ -29,15 +29,15 @@ class Dictaphone extends Component {
     return (
       <div>
         <Button onClick={resetTranscript}>
-          <img src={reset}></img>
+          <img src={reset} alt="reset"></img>
         </Button>
         {listening ? (
           <Button onClick={this.onClick()}>
-            <img src={micOn}></img>
+            <img src={micOn} alt="micOn"></img>
           </Button>
         ) : (
           <Button onClick={this.onClick()}>
-            <img src={micOff}></img>
+            <img src={micOff} alt="micOff"></img>
           </Button>
         )}
       </div>

@@ -3,14 +3,9 @@ import { Input, Card, Button } from "react-rainbow-components";
 import axios from "axios";
 import https from "https";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import "./media-queries.css";
 import "./styles.css";
-
-const propTypes = {
-  auth: PropTypes.string,
-  authSwitch: PropTypes.func
-};
+import { navigateTo } from "../../history";
 
 const INITIAL_STATE = {
   username: "",
@@ -29,38 +24,36 @@ const inputStyles = {
   width: 500
 };
 
-const SignUpPage = () => (
-  <div className="rainbow-p-around_medium">
-    <SignUpForm />
-  </div>
-);
+const SignUpPage = () => {
+  return (
+    <div className="rainbow-p-around_medium">
+      <SignUpForm />
+    </div>
+  );
+};
 
-class SignUpFormBase extends Component {
+class SignUpForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
-    console.log(this.props);
   }
 
   POST = async (name, pass, confirmPass) => {
-    const { auth } = this.props;
-
-    console.log(auth);
     this.setState({
       submitting: true
     });
     try {
-      const response = 200; /*await axios.post(
-        "http://localhost:5001/auth/register",
+      const response = await axios.post(
+        "http://localhost:5000/auth/register",
         {
           Username: name,
           Password: pass,
           ConfirmPassword: confirmPass
         },
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
-      );*/
-      if (response === 200) {
-        alert("Signed up!!!");
+      );
+      if (response.status === 200) {
+        navigateTo("/signin");
         this.setState({
           submitting: false
         });
@@ -77,7 +70,6 @@ class SignUpFormBase extends Component {
 
   onSubmit = event => {
     const { username, password, confirmPassword, errors } = this.state;
-    let response;
     !errors.isInvalid
       ? this.POST(username, password, confirmPassword)
       : this.throwValidationError();
@@ -107,7 +99,13 @@ class SignUpFormBase extends Component {
   };
 
   render() {
-    const { username, password, confirmPassword, errors } = this.state;
+    const {
+      username,
+      password,
+      confirmPassword,
+      errors,
+      submitting
+    } = this.state;
 
     // Validations
     errors.isInvalid =
@@ -163,6 +161,7 @@ class SignUpFormBase extends Component {
                 variant="neutral"
                 form="signUpForm"
                 type="submit"
+                isLoading={submitting}
                 className="rainbow-m-vertical_x-large rainbow-m-horizontal_medium rainbow-m_auto"
               />
               <Button
@@ -180,8 +179,6 @@ class SignUpFormBase extends Component {
     );
   }
 }
-SignUpFormBase.propTypes = propTypes;
-const SignUpForm = SignUpFormBase;
 
 const SignInLink = () => (
   <p>

@@ -35,7 +35,7 @@ export default class Dashboard extends Component {
     });
     try {
       const response = await axios.post(
-        "http://localhost:5001/panel/toggle",
+        "http://localhost:5000/panel/toggle",
         {
           type: name,
           state: state
@@ -204,7 +204,6 @@ export default class Dashboard extends Component {
       lightIsLoading,
       soundIsLoading,
       motorIsLoading,
-      callbackFunction,
       transcript
     } = this.state;
     return (

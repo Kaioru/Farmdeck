@@ -5,7 +5,7 @@ import "./styles.css";
 
 function Home(props) {
   const { auth } = props;
-  console.log(auth);
+
   if (auth) {
     return (
       <div>

@@ -4,7 +4,7 @@ import dashboard from "../../assets/icons/dashboard.svg";
 import charts from "../../assets/icons/charts.svg";
 import "./styles.css";
 import { navigateTo } from "../../history";
-import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Dashboard from "../Dashboard";
 import Charts from "../Charts";
 
@@ -13,17 +13,7 @@ const verticalNavigationContainerStyles = {
   borderBottomLeftRadius: "0.875rem",
   borderRight: "1px solid #e3e5ed"
 };
-function SideBarItems() {
-  let match = useRouteMatch();
 
-  return (
-    <Switch>
-      <Route path={match.path} component={Dashboard} />
-      <Route path={`${match.path}/charts`} component={Charts} />
-      <Route path={`${match.path}/dashboard`} component={Dashboard} />
-    </Switch>
-  );
-}
 export default class SidebarContainer extends Component {
   constructor(props) {
     super(props);

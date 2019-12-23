@@ -6,19 +6,23 @@ import Home from "./components/Home";
 import SectionHeading from "./components/SectionHeading";
 import SignInPage from "./components/SignIn";
 
-const Routes = ({ auth, authSwitch }) => {
+const Routes = ({ auth, authSwitch, login, submitting }) => {
   return (
     <Router history={history}>
-      <SectionHeading />
-      <Route path="/signup" render={() => <SignUpPage auth={auth} />} />
-      <Route
-        path="/home"
-        render={() => <Home auth={auth} authSwitch={authSwitch} />}
-      />
+      <SectionHeading auth={auth} />
+      <Route path="/home" render={() => <Home auth={auth} />} />
 
+      <Route path="/signup" render={() => <SignUpPage />} />
       <Route
         path="/signin"
-        render={() => <SignInPage auth={auth} authSwitch={authSwitch} />}
+        render={() => (
+          <SignInPage
+            auth={auth}
+            authSwitch={authSwitch}
+            login={login}
+            submitting={submitting}
+          />
+        )}
       />
     </Router>
   );
