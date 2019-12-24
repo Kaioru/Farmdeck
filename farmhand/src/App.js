@@ -9,12 +9,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false,
-      submitting: false
+      auth: true,
+      submitting: false,
+      token: ""
     };
     this.authSwitch = this.authSwitch.bind(this);
     this.login = this.login.bind(this);
   }
+
   authSwitch = () => {
     this.setState(state => ({ auth: !state.auth }));
   };
@@ -33,12 +35,11 @@ class App extends Component {
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
       );
       if (response.status === 200) {
-        if (!this.state.auth) {
-          this.authSwitch();
-        }
         navigateTo("/home");
         this.setState({
-          submitting: false
+          auth: true,
+          submitting: false,
+          token: response.data.token
         });
       } else {
         console.log("Error connecting to server");
@@ -52,14 +53,16 @@ class App extends Component {
   };
 
   render() {
+    const props = {
+      authSwitch: this.authSwitch,
+      auth: this.state.auth,
+      submitting: this.state.submitting,
+      token: this.state.token,
+      login: this.login
+    };
     return (
       <div>
-        <Routes
-          authSwitch={this.authSwitch}
-          auth={this.state.auth}
-          submitting={this.state.submitting}
-          login={this.login}
-        />
+        <Routes {...props} />
       </div>
     );
   }

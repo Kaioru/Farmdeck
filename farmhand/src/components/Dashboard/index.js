@@ -35,7 +35,7 @@ export default class Dashboard extends Component {
     });
     try {
       const response = await axios.post(
-        "http://localhost:5000/panel/toggle",
+        "http://localhost:5000/deck/toggle",
         {
           type: name,
           state: state
