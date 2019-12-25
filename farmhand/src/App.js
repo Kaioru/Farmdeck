@@ -11,10 +11,13 @@ class App extends Component {
     this.state = {
       auth: false,
       submitting: false,
-      token: ""
+      token: "",
+      username: "",
+      deckList: []
     };
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.getdeck = this.getdeck.bind(this);
   }
 
   logout = () => {
@@ -44,7 +47,8 @@ class App extends Component {
         this.setState({
           auth: true,
           submitting: false,
-          token: response.data.token
+          token: response.data.token,
+          username: response.data.username
         });
       } else {
         console.log("Error connecting to server");
@@ -62,13 +66,34 @@ class App extends Component {
     }
   };
 
+  getdeck = async () => {
+    const { token } = this.state;
+    try {
+      const response = await axios.get("http://localhost:5000/decks", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+      if (response.status === 200) {
+        this.setState({ deckList: response.data });
+      }
+      console.log(this.state.deckList);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   render() {
     const props = {
       auth: this.state.auth,
       submitting: this.state.submitting,
       token: this.state.token,
+      username: this.state.username,
       login: this.login,
-      logout: this.logout
+      logout: this.logout,
+      getdeck: this.getdeck,
+      decklist: this.state.deckList
     };
     return (
       <div>

@@ -6,11 +6,36 @@ import Home from "./components/Home";
 import SectionHeading from "./components/SectionHeading";
 import SignInPage from "./components/SignIn";
 
-const Routes = ({ auth, login, logout, submitting, token }) => {
+const Routes = ({
+  auth,
+  login,
+  logout,
+  submitting,
+  token,
+  username,
+  getdeck,
+  decklist
+}) => {
   return (
     <Router history={history}>
-      <SectionHeading auth={auth} token={token} logout={logout} />
-      <Route path="/home" render={() => <Home auth={auth} token={token} />} />
+      <SectionHeading
+        auth={auth}
+        token={token}
+        logout={logout}
+        username={username}
+        getdeck={getdeck}
+      />
+      <Route
+        path="/home"
+        render={() => (
+          <Home
+            auth={auth}
+            token={token}
+            decklist={decklist}
+            getdeck={getdeck}
+          />
+        )}
+      />
 
       <Route path="/signup" render={() => <SignUpPage />} />
       <Route

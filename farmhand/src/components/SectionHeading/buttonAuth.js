@@ -14,7 +14,7 @@ import axios from "axios";
 import "./styles.css";
 
 const IsAuth = props => {
-  const { auth, onAddDeckClick, logout } = props;
+  const { auth, onAddDeckClick, logout, username } = props;
   if (auth) {
     return (
       <AvatarMenu
@@ -28,12 +28,12 @@ const IsAuth = props => {
           <Avatar
             src={logo}
             assistiveText="Farmdeck"
-            title="Farmdeck"
+            title={username}
             size="medium"
           />
           <div className="rainbow-m-left_x-small">
             <p className="rainbow-font-size-text_medium rainbow-color_dark-1">
-              Farmdeck
+              {username}
             </p>
             <p className="rainbow-font-size-text_small rainbow-color_gray-3">
               Best deck ever
@@ -68,7 +68,12 @@ const IsAuth = props => {
 export default class ButtonAuth extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, name: "", error: "", isLoading: false };
+    this.state = {
+      isOpen: false,
+      name: "",
+      error: "",
+      isLoading: false
+    };
     this.onAddDeckClick = this.onAddDeckClick.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
   }
@@ -89,12 +94,11 @@ export default class ButtonAuth extends Component {
           headers: { Authorization: "Bearer " + token }
         }
       );
-      if (response === 200) {
+      if (response.status === 200) {
+        await this.props.getdeck();
         this.setState({
           isOpen: false
         });
-        alert("Deck added!");
-        console.log(response);
       }
       this.setState({
         isLoading: false
@@ -103,7 +107,9 @@ export default class ButtonAuth extends Component {
       if (err.response.status === 400) {
         this.setState({ error: "Please input a name" });
       } else if (err.response.status === 403) {
-        this.setState({ error: "Name is taken, please enter another" });
+        this.setState({
+          error: "Name is taken, please enter another"
+        });
       }
 
       this.setState({
@@ -164,6 +170,7 @@ export default class ButtonAuth extends Component {
           auth={this.props.auth}
           onAddDeckClick={this.onAddDeckClick}
           logout={this.props.logout}
+          username={this.props.username}
         />
       </div>
     );

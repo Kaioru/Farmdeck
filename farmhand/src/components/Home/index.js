@@ -3,9 +3,9 @@ import "./styles.css";
 import Landing from "./Landing";
 
 function Home(props) {
-  const { auth, token } = props;
+  const { auth, token, decklist, getdeck } = props;
   if (auth) {
-    return <Landing token={token} />;
+    return <Landing token={token} decklist={decklist} getdeck={getdeck} />;
   } else {
     return (
       <div className="container">

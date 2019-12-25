@@ -3,14 +3,18 @@ import axios from "axios";
 import Deck from "./Deck";
 import "./styles.css";
 import SidebarContainer from "../SidebarContainer";
-const INITIAL_STATE = { deckList: [], onSelect: false, selectedId: "" };
+import { Spinner } from "react-rainbow-components";
+const INITIAL_STATE = { isLoading: true, onSelect: false, selectedId: "" };
 
 export default class Landing extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
   }
-
+  getdeck = async () => {
+    await this.props.getdeck();
+    this.setState({ isLoading: false });
+  };
   componentDidMount() {
     this.getdeck();
   }
@@ -33,40 +37,25 @@ export default class Landing extends Component {
 
       if (response.status === 200) {
         alert("Deleted!");
+        this.setState({ deckList: this.props.getdeck() });
       }
-    } catch (err) {
-      return err;
-    }
-  };
-
-  getdeck = async () => {
-    const { token } = this.props;
-    try {
-      const response = await axios.get("http://localhost:5000/decks", {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
-      if (response.status === 200) {
-        this.setState({ deckList: response.data });
-      }
-      return response;
     } catch (err) {
       return err;
     }
   };
 
   render() {
-    const { deckList, onSelect, selectedId } = this.state;
+    const { onSelect, selectedId, isLoading } = this.state;
+    const { decklist } = this.props;
     let deletedeck = this.deletedeck;
     let onClick = this.onClick;
     if (onSelect) {
       return <SidebarContainer id={selectedId} token={this.props.token} />;
-    } else {
+    } else if (decklist.length > 0) {
       return (
         <div className="container">
           <div class="deckList">
-            {deckList.map(function(item, i) {
+            {decklist.map(function(item, i) {
               return (
                 <Deck
                   title={item["name"]}
@@ -79,6 +68,20 @@ export default class Landing extends Component {
           </div>
         </div>
       );
+    } else {
+      if (isLoading) {
+        return (
+          <div className="container">
+            <Spinner size="large" />
+          </div>
+        );
+      } else {
+        return (
+          <div className="container">
+            <h1>There's currently no decks, add one!</h1>
+          </div>
+        );
+      }
     }
   }
 }
