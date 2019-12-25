@@ -14,8 +14,8 @@ export default class Landing extends Component {
   componentDidMount() {
     this.getdeck();
   }
+
   onClick = id => {
-    console.log(id);
     return this.setState({
       onSelect: true,
       selectedId: id
@@ -25,11 +25,9 @@ export default class Landing extends Component {
   deletedeck = async id => {
     const { token } = this.props;
     try {
-      const response = await axios.delete("http://localhost:5000/decks" + id, {
+      const response = await axios.delete("http://localhost:5000/decks/" + id, {
         headers: {
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhc2Rhc2QiLCJuYmYiOjE1NzcyOTA0NzUsImV4cCI6MTU3NzM3Njg3NSwiaWF0IjoxNTc3MjkwNDc1LCJpc3MiOiJsb2NhbGhvc3QiLCJhdWQiOiJsb2NhbGhvc3QifQ.2ksMArcVZRwZsSrhp0-GTfgJ09RE_Q6ScsquNA59aDE"
+          Authorization: "Bearer " + token
         }
       });
 
@@ -43,21 +41,18 @@ export default class Landing extends Component {
 
   getdeck = async () => {
     const { token } = this.props;
-    console.log(token);
     try {
       const response = await axios.get("http://localhost:5000/decks", {
         headers: {
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhc2Rhc2QiLCJuYmYiOjE1NzcyOTA0NzUsImV4cCI6MTU3NzM3Njg3NSwiaWF0IjoxNTc3MjkwNDc1LCJpc3MiOiJsb2NhbGhvc3QiLCJhdWQiOiJsb2NhbGhvc3QifQ.2ksMArcVZRwZsSrhp0-GTfgJ09RE_Q6ScsquNA59aDE"
+          Authorization: "Bearer " + token
         }
       });
       if (response.status === 200) {
         this.setState({ deckList: response.data });
       }
-      console.log(response);
+      return response;
     } catch (err) {
-      console.error(err);
+      return err;
     }
   };
 
@@ -66,19 +61,18 @@ export default class Landing extends Component {
     let deletedeck = this.deletedeck;
     let onClick = this.onClick;
     if (onSelect) {
-      return <SidebarContainer id={selectedId} />;
+      return <SidebarContainer id={selectedId} token={this.props.token} />;
     } else {
       return (
         <div className="container">
           <div class="deckList">
             {deckList.map(function(item, i) {
-              console.log(item["name"]);
               return (
                 <Deck
                   title={item["name"]}
                   id={item["id"]}
-                  deletedeck={() => deletedeck}
-                  onClick={() => onClick}
+                  deletedeck={deletedeck}
+                  onClick={onClick}
                 />
               );
             })}

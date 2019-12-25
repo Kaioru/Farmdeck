@@ -33,19 +33,24 @@ export default class Dashboard extends Component {
   }
 
   POST = async (name, state) => {
-    console.log(this.props.id);
     let isLoading = name + "IsLoading";
     this.setState({
       [isLoading]: true
     });
     try {
       const response = await axios.post(
-        "http://localhost:5000/deck/" + this.props.id + "/toggle",
+        "http://localhost:5000/decks/" + this.props.id + "/toggle",
+
         {
           type: name,
           state: state
         },
-        { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
+        {
+          httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+          headers: {
+            Authorization: "Bearer " + this.props.token
+          }
+        }
       );
       if (response.status === 200) {
         this.setState({

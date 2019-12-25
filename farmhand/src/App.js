@@ -13,12 +13,16 @@ class App extends Component {
       submitting: false,
       token: ""
     };
-    this.authSwitch = this.authSwitch.bind(this);
     this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
-  authSwitch = () => {
-    this.setState(state => ({ auth: !state.auth }));
+  logout = () => {
+    this.setState({
+      token: "",
+      auth: false
+    });
+    navigateTo("/signin");
   };
 
   login = async (name, pass) => {
@@ -60,11 +64,11 @@ class App extends Component {
 
   render() {
     const props = {
-      authSwitch: this.authSwitch,
       auth: this.state.auth,
       submitting: this.state.submitting,
       token: this.state.token,
-      login: this.login
+      login: this.login,
+      logout: this.logout
     };
     return (
       <div>

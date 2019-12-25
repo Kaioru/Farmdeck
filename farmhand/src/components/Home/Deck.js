@@ -12,13 +12,17 @@ export default function Deck(props) {
         <Button
           className="deleteBtn"
           variant="destructive"
-          onClick={deletedeck(id)}
+          onClick={() => deletedeck(id)}
         >
           <FontAwesomeIcon icon={faTrashAlt} />
         </Button>
       }
       footer={
-        <Button className="linkBtn" variant="neutral" onClick={onClick(id)}>
+        <Button
+          className="linkBtn"
+          variant="neutral"
+          onClick={() => onClick(id)}
+        >
           Select
         </Button>
       }

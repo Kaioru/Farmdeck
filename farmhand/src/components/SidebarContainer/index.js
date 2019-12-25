@@ -24,13 +24,12 @@ export default class SidebarContainer extends Component {
   }
 
   handleOnSelect(e, selectedItem) {
-    console.log(this.props.id);
     return this.setState({ selectedItem });
   }
 
   render() {
     const { selectedItem } = this.state;
-    const { id } = this.props;
+    const { id, token } = this.props;
     return (
       <div>
         <div
@@ -64,10 +63,13 @@ export default class SidebarContainer extends Component {
           <div className="mainContainer">
             <Switch>
               <Redirect from="/home" exact to="/home/dashboard" />
-              <Route path="/home/charts" render={() => <Charts id={id} />} />
+              <Route
+                path="/home/charts"
+                render={() => <Charts id={id} token={token} />}
+              />
               <Route
                 path="/home/dashboard"
-                render={() => <Dashboard id={id} />}
+                render={() => <Dashboard id={id} token={token} />}
               />
             </Switch>
           </div>

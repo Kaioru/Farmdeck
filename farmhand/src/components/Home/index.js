@@ -1,13 +1,10 @@
 import React from "react";
-import SidebarContainer from "../SidebarContainer";
-import { Card } from "react-rainbow-components";
-import Deck from "./Deck";
 import "./styles.css";
 import Landing from "./Landing";
 
 function Home(props) {
   const { auth, token } = props;
-  if (!auth) {
+  if (auth) {
     return <Landing token={token} />;
   } else {
     return (

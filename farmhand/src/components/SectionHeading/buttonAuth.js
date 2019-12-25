@@ -14,7 +14,7 @@ import axios from "axios";
 import "./styles.css";
 
 const IsAuth = props => {
-  const { auth, onAddDeckClick } = props;
+  const { auth, onAddDeckClick, logout } = props;
   if (auth) {
     return (
       <AvatarMenu
@@ -46,7 +46,11 @@ const IsAuth = props => {
           iconPosition="left"
           onClick={onAddDeckClick}
         />
-        <MenuItem label="Logout" iconPosition="left" />
+        <MenuItem
+          label="Sign Out"
+          iconPosition="left"
+          onClick={() => logout()}
+        />
       </AvatarMenu>
     );
   } else {
@@ -156,7 +160,11 @@ export default class ButtonAuth extends Component {
             </div>
           </form>
         </Modal>
-        <IsAuth auth={this.props.auth} onAddDeckClick={this.onAddDeckClick} />
+        <IsAuth
+          auth={this.props.auth}
+          onAddDeckClick={this.onAddDeckClick}
+          logout={this.props.logout}
+        />
       </div>
     );
   }
