@@ -4,6 +4,7 @@ import { Button } from "react-rainbow-components";
 import micOn from "../../assets/icons/mic-on.svg";
 import micOff from "../../assets/icons/mic-off.svg";
 import reset from "../../assets/icons/reset.svg";
+import "./styles.css";
 class Dictaphone extends Component {
   onClick = () => {
     const { listening, startListening } = this.props;
@@ -27,16 +28,22 @@ class Dictaphone extends Component {
       return null;
     }
     return (
-      <div>
-        <Button onClick={resetTranscript}>
+      <div className="voice-recog-btn-group">
+        <Button className="voice-recog-btn-group-btn" onClick={resetTranscript}>
           <img src={reset} alt="reset"></img>
         </Button>
         {listening ? (
-          <Button onClick={this.onClick()}>
+          <Button
+            className="voice-recog-btn-group-btn"
+            onClick={this.onClick()}
+          >
             <img src={micOn} alt="micOn"></img>
           </Button>
         ) : (
-          <Button onClick={this.onClick()}>
+          <Button
+            className="voice-recog-btn-group-btn"
+            onClick={this.onClick()}
+          >
             <img src={micOff} alt="micOff"></img>
           </Button>
         )}

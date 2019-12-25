@@ -9,7 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: true,
+      auth: false,
       submitting: false,
       token: ""
     };
@@ -25,8 +25,9 @@ class App extends Component {
     this.setState({
       submitting: true
     });
+    let response;
     try {
-      const response = await axios.post(
+      response = await axios.post(
         "http://localhost:5000/auth/login",
         {
           username: name,
@@ -47,8 +48,13 @@ class App extends Component {
           submitting: false
         });
       }
+      return response;
     } catch (err) {
-      return false;
+      this.setState({
+        submitting: false
+      });
+      response = err.response;
+      return err.response;
     }
   };
 

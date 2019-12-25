@@ -44,7 +44,7 @@ const IsAuth = props => {
         <MenuItem
           label="Add Deck"
           iconPosition="left"
-          onClick={() => onAddDeckClick()}
+          onClick={onAddDeckClick}
         />
         <MenuItem label="Logout" iconPosition="left" />
       </AvatarMenu>
@@ -66,14 +66,13 @@ export default class ButtonAuth extends Component {
     super(props);
     this.state = { isOpen: false, name: "", error: "", isLoading: false };
     this.onAddDeckClick = this.onAddDeckClick.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
   }
 
   postdeck = async (guid, name) => {
     const { token } = this.props;
 
-    this.setState = {
-      isLoading: true
-    };
+    this.setState({ isLoading: true });
 
     try {
       const response = await axios.post(
@@ -86,13 +85,33 @@ export default class ButtonAuth extends Component {
           headers: { Authorization: "Bearer " + token }
         }
       );
-      return response;
+      if (response === 200) {
+        this.setState({
+          isOpen: false
+        });
+        alert("Deck added!");
+        console.log(response);
+      }
+      this.setState({
+        isLoading: false
+      });
     } catch (err) {
-      return err;
+      if (err.response.status === 400) {
+        this.setState({ error: "Please input a name" });
+      } else if (err.response.status === 403) {
+        this.setState({ error: "Name is taken, please enter another" });
+      }
+
+      this.setState({
+        isLoading: false
+      });
     }
   };
 
-  onSubmit = () => {};
+  onSubmit = event => {
+    this.postdeck("8c8676ba-b1a9-425c-8b14-64e3ec6128cd", this.state.name);
+    event.preventDefault();
+  };
 
   onChange = event => {
     const { name, value } = event.target;
@@ -101,7 +120,6 @@ export default class ButtonAuth extends Component {
 
   onAddDeckClick = () => {
     return this.setState({ isOpen: true });
-    /*this.postdeck("8c8676ba-b1a9-425c-8b14-64e3ec6128ce", "lmao");*/
   };
 
   handleOnClose = () => {
@@ -109,7 +127,7 @@ export default class ButtonAuth extends Component {
   };
 
   render() {
-    const { name, error } = this.state;
+    const { name, error, isLoading } = this.state;
     return (
       <div>
         <Modal
@@ -117,23 +135,26 @@ export default class ButtonAuth extends Component {
           onRequestClose={this.handleOnClose}
           title="Add Deck"
         >
-          <Input
-            name="name"
-            error={error}
-            placeholder="Name"
-            type="text"
-            value={name}
-            onChange={this.onChange}
-            className="username"
-          />
-          <Button
-            label="Submit"
-            variant="neutral"
-            form="signUpForm"
-            type="submit"
-            isLoading={submitting}
-            className="rainbow-m-vertical_x-large rainbow-m-horizontal_medium rainbow-m_auto"
-          />
+          <form id="addDeckForm" onSubmit={this.onSubmit}>
+            <Input
+              name="name"
+              error={error}
+              placeholder="Name"
+              type="text"
+              value={name}
+              onChange={this.onChange}
+              className="username"
+            />
+            <div className="submit">
+              <Button
+                label="Submit"
+                variant="neutral"
+                form="addDeckForm"
+                type="submit"
+                isLoading={isLoading}
+              />
+            </div>
+          </form>
         </Modal>
         <IsAuth auth={this.props.auth} onAddDeckClick={this.onAddDeckClick} />
       </div>

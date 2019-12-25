@@ -1,6 +1,7 @@
 import React from "react";
 import SidebarContainer from "../SidebarContainer";
-
+import { Card } from "react-rainbow-components";
+import Deck from "./Deck";
 import "./styles.css";
 
 function Home(props) {
@@ -12,7 +13,11 @@ function Home(props) {
       </div>
     );
   } else {
-    return <div></div>;
+    return (
+      <div className="container">
+        <h1>You're not signed in!</h1>
+      </div>
+    );
   }
 }
 

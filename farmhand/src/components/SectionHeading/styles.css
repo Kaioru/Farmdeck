@@ -19,6 +19,11 @@
   align-items: center;
 }
 
+.submit {
+  text-align: center;
+  padding-top: 20px;
+}
+
 @media (max-width: 600px) {
   .react-rainbow-admin_header {
     height: 124px;
