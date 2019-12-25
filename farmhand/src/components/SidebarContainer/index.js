@@ -25,26 +25,6 @@ export default class SidebarContainer extends Component {
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
-  componentDidMount() {
-    this.getdeck();
-  }
-
-  getdeck = async () => {
-    const { token } = this.props;
-    console.log(token);
-    try {
-      const response = await axios.get("http://localhost:5000/decks", {
-        headers: { Authorization: "Bearer " + token }
-      });
-      if (response.status === 200) {
-        this.setState({ deckList: response.data });
-      }
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   handleOnSelect(e, selectedItem) {
     return this.setState({ selectedItem });
   }
