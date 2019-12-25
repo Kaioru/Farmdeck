@@ -14,12 +14,23 @@
 
 .deckCard {
   width: 200px;
-  height: 200px;
+  margin-right: 20px;
 }
 
 .deckCard h1 {
   font-size: 1.5rem;
   color: #061c3f;
   margin-top: 20px;
+  margin-bottom: 20px;
   text-align: center;
+}
+
+.deckList {
+  display: flex;
+  flex-direction: row;
+}
+
+.deleteBtn {
+  height: 40px;
+  width: 40px;
 }

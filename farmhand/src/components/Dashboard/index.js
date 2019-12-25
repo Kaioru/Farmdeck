@@ -33,13 +33,14 @@ export default class Dashboard extends Component {
   }
 
   POST = async (name, state) => {
+    console.log(this.props.id);
     let isLoading = name + "IsLoading";
     this.setState({
       [isLoading]: true
     });
     try {
       const response = await axios.post(
-        "http://localhost:5000/deck/toggle",
+        "http://localhost:5000/deck/" + this.props.id + "/toggle",
         {
           type: name,
           state: state
