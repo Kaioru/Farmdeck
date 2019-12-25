@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import SpeechRecognition from "react-speech-recognition";
 import { Button } from "react-rainbow-components";
-import micOn from "../../assets/icons/mic-on.svg";
-import micOff from "../../assets/icons/mic-off.svg";
-import reset from "../../assets/icons/reset.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophoneAlt,
+  faMicrophoneAltSlash,
+  faRedo
+} from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
 class Dictaphone extends Component {
   onClick = () => {
@@ -30,21 +33,21 @@ class Dictaphone extends Component {
     return (
       <div className="voice-recog-btn-group">
         <Button className="voice-recog-btn-group-btn" onClick={resetTranscript}>
-          <img src={reset} alt="reset"></img>
+          <FontAwesomeIcon icon={faRedo} />
         </Button>
         {listening ? (
           <Button
             className="voice-recog-btn-group-btn"
             onClick={this.onClick()}
           >
-            <img src={micOn} alt="micOn"></img>
+            <FontAwesomeIcon icon={faMicrophoneAlt} />
           </Button>
         ) : (
           <Button
             className="voice-recog-btn-group-btn"
             onClick={this.onClick()}
           >
-            <img src={micOff} alt="micOff"></img>
+            <FontAwesomeIcon icon={faMicrophoneAltSlash} />
           </Button>
         )}
       </div>
