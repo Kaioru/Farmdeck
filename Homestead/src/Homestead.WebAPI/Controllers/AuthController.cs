@@ -58,6 +58,9 @@ namespace Homestead.WebAPI.Controllers
 
             return new TokenContract
             {
+                DisplayName = user.DisplayName,
+                DisplayPicture = user.DisplayPicture,
+                Username = user.Username,
                 Token = token,
                 Expire = expire
             };
