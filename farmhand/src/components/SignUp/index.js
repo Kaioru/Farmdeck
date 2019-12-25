@@ -64,7 +64,15 @@ class SignUpForm extends Component {
         });
       }
     } catch (err) {
-      return false;
+      console.log(err);
+      if (err.response.status === 401) {
+        this.setState({
+          errors: {
+            username: "Username is taken"
+          },
+          submitting: false
+        });
+      }
     }
   };
 

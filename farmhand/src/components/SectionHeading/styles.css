@@ -12,6 +12,13 @@
   height: 36px;
 }
 
+.username {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 600px) {
   .react-rainbow-admin_header {
     height: 124px;
