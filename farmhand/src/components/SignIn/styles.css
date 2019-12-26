@@ -27,3 +27,7 @@
   padding-bottom: 40px;
   padding-top: 40px;
 }
+
+.input-group {
+  flex-direction: column;
+}

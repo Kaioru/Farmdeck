@@ -9,24 +9,32 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: true,
+      auth: false,
       submitting: false,
-      token: ""
+      token: "",
+      username: "",
+      deckList: []
     };
-    this.authSwitch = this.authSwitch.bind(this);
     this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+    this.getdeck = this.getdeck.bind(this);
   }
 
-  authSwitch = () => {
-    this.setState(state => ({ auth: !state.auth }));
+  logout = () => {
+    this.setState({
+      token: "",
+      auth: false
+    });
+    navigateTo("/signin");
   };
 
   login = async (name, pass) => {
     this.setState({
       submitting: true
     });
+    let response;
     try {
-      const response = await axios.post(
+      response = await axios.post(
         "http://localhost:5000/auth/login",
         {
           username: name,
@@ -39,7 +47,8 @@ class App extends Component {
         this.setState({
           auth: true,
           submitting: false,
-          token: response.data.token
+          token: response.data.token,
+          username: response.data.username
         });
       } else {
         console.log("Error connecting to server");
@@ -47,18 +56,44 @@ class App extends Component {
           submitting: false
         });
       }
+      return response;
     } catch (err) {
-      return false;
+      this.setState({
+        submitting: false
+      });
+      response = err.response;
+      return err.response;
+    }
+  };
+
+  getdeck = async () => {
+    const { token } = this.state;
+    try {
+      const response = await axios.get("http://localhost:5000/decks", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+      if (response.status === 200) {
+        this.setState({ deckList: response.data });
+      }
+      console.log(this.state.deckList);
+      return response;
+    } catch (err) {
+      return err;
     }
   };
 
   render() {
     const props = {
-      authSwitch: this.authSwitch,
       auth: this.state.auth,
       submitting: this.state.submitting,
       token: this.state.token,
-      login: this.login
+      username: this.state.username,
+      login: this.login,
+      logout: this.logout,
+      getdeck: this.getdeck,
+      decklist: this.state.deckList
     };
     return (
       <div>

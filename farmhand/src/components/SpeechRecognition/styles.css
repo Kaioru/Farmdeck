@@ -1,0 +1,12 @@
+.voice-recog-btn-group {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding-top: 20px;
+}
+
+.voice-recog-btn-group-btn {
+  width: 100px;
+  height: 75px;
+}

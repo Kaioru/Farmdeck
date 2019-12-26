@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { Card, Button } from "react-rainbow-components";
 import "./styles.css";
-import environment from "../../assets/icons/environment.svg";
-import lighthouse from "../../assets/icons/lighthouse.svg";
-import music from "../../assets/icons/music.svg";
-import controller from "../../assets/icons/controller.svg";
+import waterOn from "../../assets/icons/water-on.png";
+import waterOff from "../../assets/icons/water-off.png";
+import lightOn from "../../assets/icons/light-on.png";
+import lightOff from "../../assets/icons/light-off.png";
+import soundOn from "../../assets/icons/sound-on.png";
+import soundOff from "../../assets/icons/sound-off.png";
+import motorOn from "../../assets/icons/motor-on.png";
+import motorOff from "../../assets/icons/motor-off.png";
 import axios from "axios";
 import https from "https";
 import Dictaphone from "../SpeechRecognition";
@@ -35,12 +39,18 @@ export default class Dashboard extends Component {
     });
     try {
       const response = await axios.post(
-        "http://localhost:5000/deck/toggle",
+        "http://localhost:5000/decks/" + this.props.id + "/toggle",
+
         {
           type: name,
           state: state
         },
-        { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
+        {
+          httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+          headers: {
+            Authorization: "Bearer " + this.props.token
+          }
+        }
       );
       if (response.status === 200) {
         this.setState({
@@ -200,11 +210,14 @@ export default class Dashboard extends Component {
 
   render() {
     const {
+      pump,
+      light,
+      sound,
+      motor,
       pumpIsLoading,
       lightIsLoading,
       soundIsLoading,
-      motorIsLoading,
-      transcript
+      motorIsLoading
     } = this.state;
     return (
       <div className="react-rainbow-admin-forms_container rainbow-background-color_gray-1">
@@ -213,7 +226,7 @@ export default class Dashboard extends Component {
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
                 <img
-                  src={environment}
+                  src={pump === 1 || pump === 2 ? waterOn : waterOff}
                   alt="environment"
                   className="react-rainbow-admin-forms_logo"
                 />
@@ -234,7 +247,7 @@ export default class Dashboard extends Component {
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
                 <img
-                  src={lighthouse}
+                  src={light === 1 || light === 2 ? lightOn : lightOff}
                   alt="lighthouse"
                   className="react-rainbow-admin-forms_logo"
                 />
@@ -257,7 +270,7 @@ export default class Dashboard extends Component {
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
                 <img
-                  src={music}
+                  src={sound === 1 || sound === 2 ? soundOn : soundOff}
                   alt="music"
                   className="react-rainbow-admin-forms_logo"
                 />
@@ -278,7 +291,7 @@ export default class Dashboard extends Component {
             <Card className="react-rainbow-admin-forms_card rainbow-p-top_large">
               <div className="react-rainbow-admin-forms_header">
                 <img
-                  src={controller}
+                  src={motor === 1 || motor === 2 ? motorOn : motorOff}
                   alt="controller"
                   className="react-rainbow-admin-forms_logo"
                 />
@@ -297,9 +310,8 @@ export default class Dashboard extends Component {
               </article>
             </Card>
           </section>
-          <section className="rainbow-background-color_gray-1">
+          <section className="voice-recog-container">
             <Dictaphone callbackFunction={this.receiveText}></Dictaphone>
-            <span>{transcript}</span>
           </section>
         </div>
       </div>

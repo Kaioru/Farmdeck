@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Card, Button } from "react-rainbow-components";
+import { Input, Card, Button, Badge } from "react-rainbow-components";
 import "./styles.css";
 
 import { Link } from "react-router-dom";
@@ -11,7 +11,8 @@ const INITIAL_STATE = {
     username: "",
     password: "",
     isInvalid: true
-  }
+  },
+  wrongCredentials: false
 };
 
 const SignInPage = ({ auth, authSwitch, login, submitting }) => {
@@ -29,6 +30,18 @@ const SignInPage = ({ auth, authSwitch, login, submitting }) => {
 
 const inputStyles = {
   width: 500
+};
+
+const OnWrongCredentials = ({ wrongCredentials }) => {
+  if (wrongCredentials) {
+    return (
+      <Badge
+        label="Username or password is incorrect"
+        title="Username or password is incorrect"
+      />
+    );
+  }
+  return <div></div>;
 };
 
 class SignInForm extends Component {
@@ -52,6 +65,7 @@ class SignInForm extends Component {
     !errors.isInvalid
       ? this.props.login(username, password)
       : this.throwValidationError();
+
     event.preventDefault();
   };
 
@@ -65,16 +79,17 @@ class SignInForm extends Component {
   };
 
   render() {
-    const { username, password, errors } = this.state;
+    const { username, password, errors, wrongCredentials } = this.state;
 
     errors.isInvalid =
       password === "" || password.length < 6 || username.length < 4;
     return (
       <Card className="signInCard" footer={<SignUpLink />}>
-        <div className="rainbow-align-content_center rainbow-flex_wrap">
-          <p className="signInCardTitle">Sign In</p>
-          <form id="signInForm" onSubmit={this.onSubmit}>
-            <div className="rainbow-align-content_center rainbow-flex_wrap">
+        <form id="signInForm" onSubmit={this.onSubmit}>
+          <div className="rainbow-align-content_center rainbow-flex_wrap input-group">
+            <p className="signInCardTitle">Sign In</p>
+            <OnWrongCredentials wrongCredentials={wrongCredentials} />
+            <div className="rainbow-align-content_center rainbow-flex_wrap input-group">
               <Input
                 name="username"
                 error={errors["username"]}
@@ -98,26 +113,26 @@ class SignInForm extends Component {
                 style={inputStyles}
               />
             </div>
-            <div className="rainbow-align-content_center rainbow-flex_wrap">
-              <Button
-                label="Submit"
-                variant="neutral"
-                form="signInForm"
-                type="submit"
-                isLoading={this.props.submitting}
-                className="rainbow-m-vertical_x-large rainbow-m-horizontal_medium rainbow-m_auto"
-              />
-              <Button
-                label="Reset"
-                variant="base"
-                form="signInForm"
-                onClick={this.onReset}
-                type="button"
-                className="rainbow-m-vertical_x-large rainbow-m-horizontal_medium rainbow-m_auto"
-              />
-            </div>
-          </form>
-        </div>
+          </div>
+          <div className="rainbow-align-content_center rainbow-flex_wrap button-group">
+            <Button
+              label="Submit"
+              variant="neutral"
+              form="signInForm"
+              type="submit"
+              isLoading={this.props.submitting}
+              className="rainbow-m-vertical_x-large rainbow-m-horizontal_medium rainbow-m_auto"
+            />
+            <Button
+              label="Reset"
+              variant="base"
+              form="signInForm"
+              onClick={this.onReset}
+              type="button"
+              className="rainbow-m-vertical_x-large rainbow-m-horizontal_medium rainbow-m_auto"
+            />
+          </div>
+        </form>
       </Card>
     );
   }

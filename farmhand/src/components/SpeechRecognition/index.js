@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import SpeechRecognition from "react-speech-recognition";
 import { Button } from "react-rainbow-components";
-import micOn from "../../assets/icons/mic-on.svg";
-import micOff from "../../assets/icons/mic-off.svg";
-import reset from "../../assets/icons/reset.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophoneAlt,
+  faMicrophoneAltSlash,
+  faRedo
+} from "@fortawesome/free-solid-svg-icons";
+import "./styles.css";
 class Dictaphone extends Component {
   onClick = () => {
     const { listening, startListening } = this.props;
@@ -27,17 +31,23 @@ class Dictaphone extends Component {
       return null;
     }
     return (
-      <div>
-        <Button onClick={resetTranscript}>
-          <img src={reset} alt="reset"></img>
+      <div className="voice-recog-btn-group">
+        <Button className="voice-recog-btn-group-btn" onClick={resetTranscript}>
+          <FontAwesomeIcon icon={faRedo} />
         </Button>
         {listening ? (
-          <Button onClick={this.onClick()}>
-            <img src={micOn} alt="micOn"></img>
+          <Button
+            className="voice-recog-btn-group-btn"
+            onClick={this.onClick()}
+          >
+            <FontAwesomeIcon icon={faMicrophoneAlt} />
           </Button>
         ) : (
-          <Button onClick={this.onClick()}>
-            <img src={micOff} alt="micOff"></img>
+          <Button
+            className="voice-recog-btn-group-btn"
+            onClick={this.onClick()}
+          >
+            <FontAwesomeIcon icon={faMicrophoneAltSlash} />
           </Button>
         )}
       </div>

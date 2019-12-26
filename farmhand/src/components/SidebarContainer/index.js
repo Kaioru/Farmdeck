@@ -7,7 +7,6 @@ import { navigateTo } from "../../history";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Dashboard from "../Dashboard";
 import Charts from "../Charts";
-import axios from "axios";
 
 const verticalNavigationContainerStyles = {
   width: "88px",
@@ -19,31 +18,10 @@ export default class SidebarContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedItem: "Dashboard",
-      deckList: []
+      selectedItem: "Dashboard"
     };
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
-
-  componentDidMount() {
-    this.getdeck();
-  }
-
-  getdeck = async () => {
-    const { token } = this.props;
-    console.log(token);
-    try {
-      const response = await axios.get("http://localhost:5000/decks", {
-        headers: { Authorization: "Bearer " + token }
-      });
-      if (response.status === 200) {
-        this.setState({ deckList: response.data });
-      }
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   handleOnSelect(e, selectedItem) {
     return this.setState({ selectedItem });
@@ -51,6 +29,7 @@ export default class SidebarContainer extends Component {
 
   render() {
     const { selectedItem } = this.state;
+    const { id, token } = this.props;
     return (
       <div>
         <div
@@ -84,8 +63,14 @@ export default class SidebarContainer extends Component {
           <div className="mainContainer">
             <Switch>
               <Redirect from="/home" exact to="/home/dashboard" />
-              <Route path="/home/charts" component={Charts} />
-              <Route path="/home/dashboard" component={Dashboard} />
+              <Route
+                path="/home/charts"
+                render={() => <Charts id={id} token={token} />}
+              />
+              <Route
+                path="/home/dashboard"
+                render={() => <Dashboard id={id} token={token} />}
+              />
             </Switch>
           </div>
         </div>
