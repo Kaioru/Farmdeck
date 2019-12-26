@@ -149,7 +149,12 @@ namespace Homestead.WebAPI.Controllers
                 .Include(d => d.Indicators)
                 .First(d => d.Id == id && d.User.Id == userId)
                 .Indicators
-                .Where(i => i.DateCreated >= week);
+                .Where(i => i.DateCreated >= week)
+                .Select(i => new DeckIndicatorContract
+                {
+                    Type = i.Type,
+                    Value = i.Value
+                });
 
             return Json(indicators);
         }
@@ -169,7 +174,12 @@ namespace Homestead.WebAPI.Controllers
                 .Include(d => d.Indicators)
                 .First(d => d.Id == id && d.User.Id == userId)
                 .Indicators
-                .Where(i => i.DateCreated >= week);
+                .Where(i => i.DateCreated >= week)
+                .Select(i => new DeckIndicatorContract
+                {
+                    Type = i.Type,
+                    Value = i.Value
+                });
 
             return Json(indicators);
         }
