@@ -119,7 +119,7 @@ export default class ButtonAuth extends Component {
   };
 
   onSubmit = event => {
-    this.postdeck("8c8676ba-b1a9-425c-8b14-64e3ec6128cd", this.state.name);
+    this.postdeck("8c8676ba-b1a9-425c-8b14-64e3ec6128ce", this.state.name);
     event.preventDefault();
   };
 

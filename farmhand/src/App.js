@@ -77,7 +77,7 @@ class App extends Component {
       if (response.status === 200) {
         this.setState({ deckList: response.data });
       }
-      console.log(this.state.deckList);
+      console.log(response);
       return response;
     } catch (err) {
       return err;
