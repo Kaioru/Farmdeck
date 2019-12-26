@@ -113,7 +113,7 @@ namespace Homestead.WebAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("{id}/indicators")]
-        public async Task<IActionResult> PostIndicator(Guid id, DeckIndicatorType type, float value)
+        public async Task<IActionResult> PostIndicator(Guid id, DeckIndicatorContract contract)
         {
             var userId = Convert.ToInt32(
                 HttpContext.User.Claims
@@ -123,8 +123,8 @@ namespace Homestead.WebAPI.Controllers
             var indicator = new DeckIndicator
             {
                 Deck = deck,
-                Type = type,
-                Value = value,
+                Type = contract.Type,
+                Value = contract.Value,
                 DateCreated = DateTime.UtcNow
             };
 
