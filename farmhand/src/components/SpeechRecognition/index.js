@@ -8,6 +8,7 @@ import {
   faRedo
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
+
 class Dictaphone extends Component {
   onClick = () => {
     const { listening, startListening } = this.props;
@@ -24,7 +25,8 @@ class Dictaphone extends Component {
     const {
       resetTranscript,
       browserSupportsSpeechRecognition,
-      listening
+      listening,
+      transcript
     } = this.props;
 
     if (!browserSupportsSpeechRecognition) {
@@ -50,6 +52,7 @@ class Dictaphone extends Component {
             <FontAwesomeIcon icon={faMicrophoneAltSlash} />
           </Button>
         )}
+        <p>{transcript}</p>
       </div>
     );
   }

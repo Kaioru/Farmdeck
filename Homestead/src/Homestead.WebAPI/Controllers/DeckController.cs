@@ -101,6 +101,9 @@ namespace Homestead.WebAPI.Controllers
         [Route("{id}/toggle")]
         public async Task<IActionResult> ToggleComponent(Guid id, DeckToggleContract contract)
         {
+            if (contract.Type == "water")
+                contract.Type = "pump";
+            
             var userId = Convert.ToInt32(
                 HttpContext.User.Claims
                     .Single(c => c.Type == ClaimTypes.Sid)?.Value
