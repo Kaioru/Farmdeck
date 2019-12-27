@@ -95,6 +95,25 @@ namespace Homestead.WebAPI.Controllers
 
             return Ok();
         }
+        
+        [Authorize]
+        [HttpPost]
+        [Route("{id}/toggle/{type}")]
+        public async Task<IActionResult> ToggleComponent2(Guid id, string type, string value)
+        {
+            if (type == "water")
+                type = "pump";
+            if (type == "sound")
+                type = "mp3";
+            
+            var userId = Convert.ToInt32(
+                HttpContext.User.Claims
+                    .Single(c => c.Type == ClaimTypes.Sid)?.Value
+            );
+            await _context.Decks.FirstAsync(d => d.Id == id && d.User.Id == userId);
+            await _client.Client.PublishAsync(id.ToString(), type + "-" + type);
+            return Ok();
+        }
 
         [Authorize]
         [HttpPost]
@@ -103,6 +122,8 @@ namespace Homestead.WebAPI.Controllers
         {
             if (contract.Type == "water")
                 contract.Type = "pump";
+            if (contract.Type == "sound")
+                contract.Type = "mp3";
             
             var userId = Convert.ToInt32(
                 HttpContext.User.Claims

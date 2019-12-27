@@ -15,6 +15,7 @@ class Dictaphone extends Component {
 
     return listening ? this.sendData : startListening;
   };
+  
   sendData = () => {
     const { callbackFunction, transcript, stopListening } = this.props;
     stopListening();
@@ -52,13 +53,13 @@ class Dictaphone extends Component {
             <FontAwesomeIcon icon={faMicrophoneAltSlash} />
           </Button>
         )}
-        <p>{transcript}</p>
+
       </div>
     );
   }
 }
 const options = {
   autoStart: false,
-  continuous: false
+  continuous: true
 };
 export default SpeechRecognition(options)(Dictaphone);
