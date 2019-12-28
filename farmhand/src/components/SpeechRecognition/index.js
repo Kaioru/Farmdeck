@@ -8,12 +8,14 @@ import {
   faRedo
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
+
 class Dictaphone extends Component {
   onClick = () => {
     const { listening, startListening } = this.props;
 
     return listening ? this.sendData : startListening;
   };
+  
   sendData = () => {
     const { callbackFunction, transcript, stopListening } = this.props;
     stopListening();
@@ -24,7 +26,8 @@ class Dictaphone extends Component {
     const {
       resetTranscript,
       browserSupportsSpeechRecognition,
-      listening
+      listening,
+      transcript
     } = this.props;
 
     if (!browserSupportsSpeechRecognition) {
@@ -50,12 +53,13 @@ class Dictaphone extends Component {
             <FontAwesomeIcon icon={faMicrophoneAltSlash} />
           </Button>
         )}
+
       </div>
     );
   }
 }
 const options = {
   autoStart: false,
-  continuous: false
+  continuous: true
 };
 export default SpeechRecognition(options)(Dictaphone);

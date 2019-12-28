@@ -84,6 +84,17 @@ namespace Homestead.WebAPI
                 service.StartAsync(CancellationToken.None);
                 return service;
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
             // services.AddHostedMqttServer(builder => builder.WithDefaultEndpointPort(1883));
             // services.AddMqttTcpServerAdapter();
             // services.AddMqttWebSocketServerAdapter();
@@ -96,6 +107,8 @@ namespace Homestead.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowAll");
 
             // app.UseHttpsRedirection();
 
