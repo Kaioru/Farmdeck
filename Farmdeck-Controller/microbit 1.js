@@ -31,7 +31,7 @@ finalight = BH1750.getIntensity()
 basic.showIcon(IconNames.Yes)
 dht11_dht22.queryData(
 DHTtype.DHT22,
-DigitalPin.P15,
+DigitalPin.P13,
 true,
 false,
 true
@@ -39,10 +39,14 @@ true
 basic.forever(function () {
     Light1 = BH1750.getIntensity()
     Temperature = dht11_dht22.readData(dataType.temperature)
+    basic.showString("" + Temperature)
     // send over to microbit 2
     radio.sendValue("light2", Light1)
-    // Check if it is working
-    basic.showString("" + Math.ceil(Math.map(2000 - finalight, 0, 2000, 0, 30)))
+    // send over to microbit 2
+    radio.sendValue("temp", Temperature)
+    // Check if it is working basic.showString("" +
+    // Math.ceil(Math.map(2000 - finalight, 0, 2000, 0,
+    // 30)))
     dfplayer.setVolume(Math.ceil(Math.map(2000 - finalight, 0, 2000, 0, 30)))
     robotbit.rgb().showColor(neopixel.hsl(174, 72, pins.map(
     1000 - finalight,
