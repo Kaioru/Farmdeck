@@ -11,10 +11,12 @@ export default class Landing extends Component {
     super(props);
     this.state = { ...INITIAL_STATE };
   }
+
   getdeck = async () => {
     await this.props.getdeck();
     this.setState({ isLoading: false });
   };
+
   componentDidMount() {
     this.getdeck();
   }
@@ -40,7 +42,7 @@ export default class Landing extends Component {
         this.setState({ deckList: this.props.getdeck() });
       }
     } catch (err) {
-      return err;
+      console.log(err.response);
     }
   };
 

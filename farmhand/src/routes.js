@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import history from "./history";
 import SignUpPage from "./components/SignUp";
 import Home from "./components/Home";
@@ -18,6 +18,7 @@ const Routes = ({
 }) => {
   return (
     <Router history={history}>
+      <Redirect from="/" exact to="/home" />
       <SectionHeading
         auth={auth}
         token={token}

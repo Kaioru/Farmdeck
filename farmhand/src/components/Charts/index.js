@@ -3,8 +3,64 @@ import PropTypes from "prop-types";
 import Dataset from "react-rainbow-components/components/Dataset";
 import ChartCard from "./chartCard";
 import "./styles.css";
+import axios from "axios";
 
+const INITIAL_STATE = {
+  chartsData: []
+};
 export default class Charts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { ...INITIAL_STATE };
+  }
+
+  componentDidMount() {
+    this.getChartsData();
+  }
+
+  getChartsData = async () => {
+    const { token, id } = this.props;
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/decks/" + id + "/indicators/week",
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        }
+      );
+      if (response.status === 200) {
+        this.setState({ chartsData: response.data });
+      }
+      console.log(this.state.chartsData);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  postChartsData = async () => {
+    const { token, id } = this.props;
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/decks/" + id + "/indicators/",
+        {
+          type: 1,
+          value: 1.0
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        }
+      );
+      console.log(response.data);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   render() {
     return (
       <div className="react-rainbow-admin-charts_container">
