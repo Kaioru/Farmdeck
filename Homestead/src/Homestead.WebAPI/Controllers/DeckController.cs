@@ -149,7 +149,7 @@ namespace Homestead.WebAPI.Controllers
                 Deck = deck,
                 Type = contract.Type,
                 Value = contract.Value,
-                DateCreated = DateTime.UtcNow
+                DateCreated = contract.DateCreated
             };
 
             await _context.DeckIndicators.AddAsync(indicator);
@@ -177,7 +177,8 @@ namespace Homestead.WebAPI.Controllers
                 .Select(i => new DeckIndicatorContract
                 {
                     Type = i.Type,
-                    Value = i.Value
+                    Value = i.Value,
+                    DateCreated = i.DateCreated
                 });
 
             return Json(indicators);
@@ -202,7 +203,8 @@ namespace Homestead.WebAPI.Controllers
                 .Select(i => new DeckIndicatorContract
                 {
                     Type = i.Type,
-                    Value = i.Value
+                    Value = i.Value,
+                    DateCreated = i.DateCreated
                 });
 
             return Json(indicators);
