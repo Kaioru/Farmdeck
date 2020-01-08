@@ -4,5 +4,6 @@ namespace Homestead.WebAPI.Entities
     {
         Light = 0x0,
         SoilMoisture = 0x1,
+        Temp = 0x2
     }
 }
