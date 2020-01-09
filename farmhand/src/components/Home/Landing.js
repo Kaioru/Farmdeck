@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Deck from "./Deck";
-import "./styles.css";
-import SidebarContainer from "../SidebarContainer";
-import { Spinner } from "react-rainbow-components";
-const INITIAL_STATE = { isLoading: true, onSelect: false, selectedId: "" };
+import React, { Component } from 'react';
+import axios from 'axios';
+import Deck from './Deck';
+import './styles.css';
+import SidebarContainer from '../SidebarContainer';
+import { Spinner } from 'react-rainbow-components';
+const INITIAL_STATE = { isLoading: true, onSelect: false, selectedId: '' };
 
 export default class Landing extends Component {
   constructor(props) {
@@ -31,14 +31,14 @@ export default class Landing extends Component {
   deletedeck = async id => {
     const { token } = this.props;
     try {
-      const response = await axios.delete("http://localhost:5000/decks/" + id, {
+      const response = await axios.delete('http://kaioru.ngrok.io/decks/' + id, {
         headers: {
-          Authorization: "Bearer " + token
+          Authorization: 'Bearer ' + token
         }
       });
 
       if (response.status === 200) {
-        alert("Deleted!");
+        alert('Deleted!');
         this.setState({ deckList: this.props.getdeck() });
       }
     } catch (err) {
@@ -58,14 +58,7 @@ export default class Landing extends Component {
         <div className="container">
           <div class="deckList">
             {decklist.map(function(item, i) {
-              return (
-                <Deck
-                  title={item["name"]}
-                  id={item["id"]}
-                  deletedeck={deletedeck}
-                  onClick={onClick}
-                />
-              );
+              return <Deck title={item['name']} id={item['id']} deletedeck={deletedeck} onClick={onClick} />;
             })}
           </div>
         </div>

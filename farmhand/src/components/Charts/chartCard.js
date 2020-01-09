@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classnames from "classnames";
-import Card from "react-rainbow-components/components/Card";
-import Chart from "react-rainbow-components/components/Chart";
-import RenderIf from "react-rainbow-components/components/RenderIf";
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import Card from 'react-rainbow-components/components/Card';
+import Chart from 'react-rainbow-components/components/Chart';
+import RenderIf from 'react-rainbow-components/components/RenderIf';
 export default function ChartCard(props) {
   const {
     title,
@@ -22,34 +22,24 @@ export default function ChartCard(props) {
 
   const getContainerClassNames = () =>
     classnames(
-      "react-rainbow-admin-charts_card",
-      "rainbow-p-vertical_medium",
-      "rainbow-p-horizontal_medium",
+      'react-rainbow-admin-charts_card',
+      'rainbow-p-vertical_medium',
+      'rainbow-p-horizontal_medium',
       className
     );
 
   const getChartClassNames = () =>
-    classnames(
-      "react-rainbow-admin-charts_card",
-      "rainbow-p-top_x-small",
-      chartClassName
-    );
+    classnames('react-rainbow-admin-charts_card', 'rainbow-p-top_x-small', chartClassName);
 
   return (
     <Card className={getContainerClassNames()}>
       <div className="react-rainbow-admin-charts_header-title-container">
         <RenderIf isTrue={!!icon}>
-          <span className="react-rainbow-admin-charts_header-icon rainbow-p-right_small">
-            {icon}
-          </span>
+          <span className="react-rainbow-admin-charts_header-icon rainbow-p-right_small">{icon}</span>
         </RenderIf>
-        <h2 className="rainbow-font-size-heading_medium rainbow-color_gray-4">
-          {title}
-        </h2>
+        <h2 className="rainbow-font-size-heading_medium rainbow-color_gray-4">{title}</h2>
       </div>
-      <h3 className="rainbow-font-size-text_small rainbow-color_gray-3 rainbow-p-bottom_x-small">
-        {subtitle}
-      </h3>
+      <h3 className="rainbow-font-size-text_small rainbow-color_gray-3 rainbow-p-bottom_x-small">{subtitle}</h3>
       <p className="react-rainbow-admin-charts_chart-title rainbow-align-content_center rainbow-font-size-text_small rainbow-color_gray-3">
         {chartTitle}
       </p>
@@ -72,21 +62,10 @@ ChartCard.propTypes = {
   subtitle: PropTypes.string,
   chartTitle: PropTypes.string,
   icon: PropTypes.node,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.object
-  ]),
-  chartType: PropTypes.oneOf([
-    "bar",
-    "horizontalBar",
-    "line",
-    "radar",
-    "pie",
-    "doughnut",
-    "polarArea",
-    "bubble"
-  ]).isRequired,
-  chartLegendPosition: PropTypes.oneOf(["top", "bottom", "right", "left"]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.object]),
+  chartType: PropTypes.oneOf(['bar', 'horizontalBar', 'line', 'radar', 'pie', 'doughnut', 'polarArea', 'bubble'])
+    .isRequired,
+  chartLegendPosition: PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
   chartDisableCurves: PropTypes.bool,
   maintainAspectRatio: PropTypes.bool,
@@ -100,7 +79,7 @@ ChartCard.defaultProps = {
   chartTitle: undefined,
   icon: null,
   children: null,
-  chartLegendPosition: "bottom",
+  chartLegendPosition: 'bottom',
   chartDisableCurves: false,
   maintainAspectRatio: true,
   className: undefined,

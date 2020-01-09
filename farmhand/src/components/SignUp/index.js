@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { Input, Card, Button } from "react-rainbow-components";
-import axios from "axios";
-import https from "https";
-import { Link } from "react-router-dom";
-import "./media-queries.css";
-import "./styles.css";
-import { navigateTo } from "../../history";
+import React, { Component } from 'react';
+import { Input, Card, Button } from 'react-rainbow-components';
+import axios from 'axios';
+import https from 'https';
+import { Link } from 'react-router-dom';
+import './media-queries.css';
+import './styles.css';
+import { navigateTo } from '../../history';
 
 const INITIAL_STATE = {
-  username: "",
-  password: "",
-  confirmPassword: "",
+  username: '',
+  password: '',
+  confirmPassword: '',
   errors: {
-    username: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    password: '',
+    confirmPassword: '',
     isInvalid: true
   },
   submitting: false
@@ -44,7 +44,7 @@ class SignUpForm extends Component {
     });
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/register",
+        'http://kaioru.ngrok.io/auth/register',
         {
           Username: name,
           Password: pass,
@@ -53,12 +53,12 @@ class SignUpForm extends Component {
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
       );
       if (response.status === 200) {
-        navigateTo("/signin");
+        navigateTo('/signin');
         this.setState({
           submitting: false
         });
       } else {
-        console.log("Error connecting to server");
+        console.log('Error connecting to server');
         this.setState({
           submitting: false
         });
@@ -68,7 +68,7 @@ class SignUpForm extends Component {
       if (err.response.status === 401) {
         this.setState({
           errors: {
-            username: "Username is taken"
+            username: 'Username is taken'
           },
           submitting: false
         });
@@ -78,20 +78,15 @@ class SignUpForm extends Component {
 
   onSubmit = event => {
     const { username, password, confirmPassword, errors } = this.state;
-    !errors.isInvalid
-      ? this.POST(username, password, confirmPassword)
-      : this.throwValidationError();
+    !errors.isInvalid ? this.POST(username, password, confirmPassword) : this.throwValidationError();
     event.preventDefault();
   };
 
   throwValidationError = () => {
     const { username, password, confirmPassword, errors } = this.state;
-    errors.username =
-      username.length > 3 ? "" : "Username must be at least 4 characters long!";
-    errors.password =
-      password.length > 4 ? "" : "Password must be at least 5 characters long!";
-    errors.confirmPassword =
-      password === confirmPassword ? "" : "Passwords don't match";
+    errors.username = username.length > 3 ? '' : 'Username must be at least 4 characters long!';
+    errors.password = password.length > 4 ? '' : 'Password must be at least 5 characters long!';
+    errors.confirmPassword = password === confirmPassword ? '' : "Passwords don't match";
     this.setState({ errors });
     console.log(errors);
     return true;
@@ -107,20 +102,10 @@ class SignUpForm extends Component {
   };
 
   render() {
-    const {
-      username,
-      password,
-      confirmPassword,
-      errors,
-      submitting
-    } = this.state;
+    const { username, password, confirmPassword, errors, submitting } = this.state;
 
     // Validations
-    errors.isInvalid =
-      password !== confirmPassword ||
-      password === "" ||
-      password.length < 6 ||
-      username.length < 4;
+    errors.isInvalid = password !== confirmPassword || password === '' || password.length < 6 || username.length < 4;
 
     return (
       <Card className="signUpCard" footer={<SignInLink />}>
@@ -131,7 +116,7 @@ class SignUpForm extends Component {
             <div className="rainbow-align-content_center rainbow-flex_wrap">
               <Input
                 name="username"
-                error={errors["username"]}
+                error={errors['username']}
                 label="Username"
                 placeholder="Username"
                 type="text"
@@ -142,7 +127,7 @@ class SignUpForm extends Component {
               />
               <Input
                 name="password"
-                error={errors["password"]}
+                error={errors['password']}
                 label="Password"
                 placeholder="Password"
                 type="password"
@@ -153,7 +138,7 @@ class SignUpForm extends Component {
               />
               <Input
                 name="confirmPassword"
-                error={errors["confirmPassword"]}
+                error={errors['confirmPassword']}
                 label="Confirm Password"
                 placeholder="Confirm Password"
                 type="password"
@@ -190,7 +175,7 @@ class SignUpForm extends Component {
 
 const SignInLink = () => (
   <p>
-    Already have an account? <Link to={"/signin"}>Sign In!</Link>
+    Already have an account? <Link to={'/signin'}>Sign In!</Link>
   </p>
 );
 

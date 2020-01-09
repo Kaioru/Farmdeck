@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Card, Button } from "react-rainbow-components";
-import "./styles.css";
-import waterOn from "../../assets/icons/water-on.png";
-import waterOff from "../../assets/icons/water-off.png";
-import lightOn from "../../assets/icons/light-on.png";
-import lightOff from "../../assets/icons/light-off.png";
-import soundOn from "../../assets/icons/sound-on.png";
-import soundOff from "../../assets/icons/sound-off.png";
-import motorOn from "../../assets/icons/motor-on.png";
-import motorOff from "../../assets/icons/motor-off.png";
-import axios from "axios";
-import https from "https";
-import Dictaphone from "../SpeechRecognition";
+import React, { Component } from 'react';
+import { Card, Button } from 'react-rainbow-components';
+import './styles.css';
+import waterOn from '../../assets/icons/water-on.png';
+import waterOff from '../../assets/icons/water-off.png';
+import lightOn from '../../assets/icons/light-on.png';
+import lightOff from '../../assets/icons/light-off.png';
+import soundOn from '../../assets/icons/sound-on.png';
+import soundOff from '../../assets/icons/sound-off.png';
+import motorOn from '../../assets/icons/motor-on.png';
+import motorOff from '../../assets/icons/motor-off.png';
+import axios from 'axios';
+import https from 'https';
+import Dictaphone from '../SpeechRecognition';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class Dashboard extends Component {
       motor: 0,
       response: null,
       error: null,
-      transcript: "",
+      transcript: '',
       pumpIsLoading: false,
       lightIsLoading: false,
       soundIsLoading: false,
@@ -33,13 +33,13 @@ export default class Dashboard extends Component {
   }
 
   POST = async (name, state) => {
-    let isLoading = name + "IsLoading";
+    let isLoading = name + 'IsLoading';
     this.setState({
       [isLoading]: true
     });
     try {
       const response = await axios.post(
-        "http://localhost:5000/decks/" + this.props.id + "/toggle",
+        'http://kaioru.ngrok.io/decks/' + this.props.id + '/toggle',
 
         {
           type: name,
@@ -48,7 +48,7 @@ export default class Dashboard extends Component {
         {
           httpsAgent: new https.Agent({ rejectUnauthorized: false }),
           headers: {
-            Authorization: "Bearer " + this.props.token
+            Authorization: 'Bearer ' + this.props.token
           }
         }
       );
@@ -58,7 +58,7 @@ export default class Dashboard extends Component {
           [isLoading]: false
         });
       } else {
-        console.log("Error connecting to server");
+        console.log('Error connecting to server');
         this.setState({
           [isLoading]: false
         });
@@ -69,27 +69,27 @@ export default class Dashboard extends Component {
   };
 
   receiveText = text => {
-    let pump = text.includes("pump") || text.includes("water");
-    let light = text.includes("lights") || text.includes("light");
-    let sound = text.includes("sound") || text.includes("music");
-    let motor = text.includes("motor") || text.includes("gear");
+    let pump = text.includes('pump') || text.includes('water');
+    let light = text.includes('lights') || text.includes('light');
+    let sound = text.includes('sound') || text.includes('music');
+    let motor = text.includes('motor') || text.includes('gear');
     this.setState({ transcript: text });
 
-    if (text.includes("on")) {
-      if (pump) this.POST("pump", 1);
-      else if (light) this.POST("light", 1);
-      else if (sound) this.POST("sound", 1);
-      else if (motor) this.POST("motor", 1);
-    } else if (text.includes("automate") || text.includes("automatic")) {
-      if (pump) this.POST("pump", 2);
-      else if (light) this.POST("light", 2);
-      else if (sound) this.POST("sound", 2);
-      else if (motor) this.POST("motor", 2);
-    } else if (text.includes("off")) {
-      if (pump) this.POST("pump", 0);
-      else if (light) this.POST("light", 0);
-      else if (sound) this.POST("sound", 0);
-      else if (motor) this.POST("motor", 0);
+    if (text.includes('on')) {
+      if (pump) this.POST('pump', 1);
+      else if (light) this.POST('light', 1);
+      else if (sound) this.POST('sound', 1);
+      else if (motor) this.POST('motor', 1);
+    } else if (text.includes('automate') || text.includes('automatic')) {
+      if (pump) this.POST('pump', 2);
+      else if (light) this.POST('light', 2);
+      else if (sound) this.POST('sound', 2);
+      else if (motor) this.POST('motor', 2);
+    } else if (text.includes('off')) {
+      if (pump) this.POST('pump', 0);
+      else if (light) this.POST('light', 0);
+      else if (sound) this.POST('sound', 0);
+      else if (motor) this.POST('motor', 0);
     }
   };
 
@@ -98,24 +98,24 @@ export default class Dashboard extends Component {
     let count;
 
     switch (type) {
-      case "pump":
+      case 'pump':
         count = pump + 1;
-        this.POST("pump", count % 3);
+        this.POST('pump', count % 3);
         break;
 
-      case "light":
+      case 'light':
         count = light + 1;
-        this.POST("light", count % 3);
+        this.POST('light', count % 3);
         break;
 
-      case "sound":
+      case 'sound':
         count = sound + 1;
-        this.POST("sound", count % 3);
+        this.POST('sound', count % 3);
         break;
 
-      case "motor":
+      case 'motor':
         count = motor + 1;
-        this.POST("motor", count % 3);
+        this.POST('motor', count % 3);
         break;
       default:
         break;
@@ -125,8 +125,8 @@ export default class Dashboard extends Component {
   setText = (type, text) => {
     const { pump, light, sound, motor } = this.state;
     switch (type) {
-      case "pump":
-        if (text === "title") {
+      case 'pump':
+        if (text === 'title') {
           if (pump % 3 === 0) {
             return <h1>Pump is OFF</h1>;
           } else if (pump % 3 === 1) {
@@ -144,8 +144,8 @@ export default class Dashboard extends Component {
           }
         }
         break;
-      case "light":
-        if (text === "title") {
+      case 'light':
+        if (text === 'title') {
           if (light % 3 === 0) {
             return <h1>Light is OFF</h1>;
           } else if (light % 3 === 1) {
@@ -164,8 +164,8 @@ export default class Dashboard extends Component {
         }
         break;
 
-      case "sound":
-        if (text === "title") {
+      case 'sound':
+        if (text === 'title') {
           if (sound % 3 === 0) {
             return <h1>Sound is OFF</h1>;
           } else if (sound % 3 === 1) {
@@ -183,8 +183,8 @@ export default class Dashboard extends Component {
           }
         }
         break;
-      case "motor":
-        if (text === "title") {
+      case 'motor':
+        if (text === 'title') {
           if (motor % 3 === 0) {
             return <h1>Motor is OFF</h1>;
           } else if (motor % 3 === 1) {
@@ -209,16 +209,7 @@ export default class Dashboard extends Component {
   };
 
   render() {
-    const {
-      pump,
-      light,
-      sound,
-      motor,
-      pumpIsLoading,
-      lightIsLoading,
-      soundIsLoading,
-      motorIsLoading
-    } = this.state;
+    const { pump, light, sound, motor, pumpIsLoading, lightIsLoading, soundIsLoading, motorIsLoading } = this.state;
     return (
       <div className="react-rainbow-admin-forms_container rainbow-background-color_gray-1">
         <div>
@@ -230,7 +221,7 @@ export default class Dashboard extends Component {
                   alt="environment"
                   className="react-rainbow-admin-forms_logo"
                 />
-                {this.setText("pump", "title")}
+                {this.setText('pump', 'title')}
               </div>
               <article className="textContainer">
                 <Button
@@ -238,9 +229,9 @@ export default class Dashboard extends Component {
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("pump")}
+                  onClick={() => this.onClick('pump')}
                 >
-                  {this.setText("pump", "body")}
+                  {this.setText('pump', 'body')}
                 </Button>
               </article>
             </Card>
@@ -252,7 +243,7 @@ export default class Dashboard extends Component {
                   className="react-rainbow-admin-forms_logo"
                 />
 
-                {this.setText("light", "title")}
+                {this.setText('light', 'title')}
               </div>
               <article className="textContainer">
                 <Button
@@ -260,9 +251,9 @@ export default class Dashboard extends Component {
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("light")}
+                  onClick={() => this.onClick('light')}
                 >
-                  {this.setText("light", "body")}
+                  {this.setText('light', 'body')}
                 </Button>
               </article>
             </Card>
@@ -274,7 +265,7 @@ export default class Dashboard extends Component {
                   alt="music"
                   className="react-rainbow-admin-forms_logo"
                 />
-                {this.setText("sound", "title")}
+                {this.setText('sound', 'title')}
               </div>
               <article className="textContainer">
                 <Button
@@ -282,9 +273,9 @@ export default class Dashboard extends Component {
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("sound")}
+                  onClick={() => this.onClick('sound')}
                 >
-                  {this.setText("sound", "body")}
+                  {this.setText('sound', 'body')}
                 </Button>
               </article>
             </Card>
@@ -295,7 +286,7 @@ export default class Dashboard extends Component {
                   alt="controller"
                   className="react-rainbow-admin-forms_logo"
                 />
-                {this.setText("motor", "title")}
+                {this.setText('motor', 'title')}
               </div>
               <article className="textContainer">
                 <Button
@@ -303,9 +294,9 @@ export default class Dashboard extends Component {
                   className="rainbow-m-top_medium"
                   type="button"
                   variant="brand"
-                  onClick={() => this.onClick("motor")}
+                  onClick={() => this.onClick('motor')}
                 >
-                  {this.setText("motor", "body")}
+                  {this.setText('motor', 'body')}
                 </Button>
               </article>
             </Card>

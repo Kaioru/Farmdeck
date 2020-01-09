@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import "./styles.css";
-import Routes from "./routes";
-import axios from "axios";
-import https from "https";
-import { navigateTo } from "./history";
+import React, { Component } from 'react';
+import './styles.css';
+import Routes from './routes';
+import axios from 'axios';
+import https from 'https';
+import { navigateTo } from './history';
 
 class App extends Component {
   constructor(props) {
@@ -11,8 +11,8 @@ class App extends Component {
     this.state = {
       auth: false,
       submitting: false,
-      token: "",
-      username: "",
+      token: '',
+      username: '',
       deckList: []
     };
     this.login = this.login.bind(this);
@@ -22,10 +22,10 @@ class App extends Component {
 
   logout = () => {
     this.setState({
-      token: "",
+      token: '',
       auth: false
     });
-    navigateTo("/signin");
+    navigateTo('/signin');
   };
 
   login = async (name, pass) => {
@@ -35,7 +35,7 @@ class App extends Component {
     let response;
     try {
       response = await axios.post(
-        "http://localhost:5000/auth/login",
+        'http://kaioru.ngrok.io/auth/login',
         {
           username: name,
           password: pass
@@ -43,7 +43,8 @@ class App extends Component {
         { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
       );
       if (response.status === 200) {
-        navigateTo("/home");
+        console.log(response.data.token);
+        navigateTo('/home');
         this.setState({
           auth: true,
           submitting: false,
@@ -51,7 +52,7 @@ class App extends Component {
           username: response.data.username
         });
       } else {
-        console.log("Error connecting to server");
+        console.log('Error connecting to server');
         this.setState({
           submitting: false
         });
@@ -69,9 +70,9 @@ class App extends Component {
   getdeck = async () => {
     const { token } = this.state;
     try {
-      const response = await axios.get("http://localhost:5000/decks", {
+      const response = await axios.get('http://kaioru.ngrok.io/decks', {
         headers: {
-          Authorization: "Bearer " + token
+          Authorization: 'Bearer ' + token
         }
       });
       if (response.status === 200) {

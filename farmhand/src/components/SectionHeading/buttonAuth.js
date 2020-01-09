@@ -1,63 +1,32 @@
-import React, { Component } from "react";
-import logo from "../../assets/farmicon.jpg";
-import {
-  Button,
-  AvatarMenu,
-  Avatar,
-  MenuDivider,
-  MenuItem,
-  Modal,
-  Input
-} from "react-rainbow-components";
-import { navigateTo } from "../../history";
-import axios from "axios";
-import "./styles.css";
+import React, { Component } from 'react';
+import logo from '../../assets/farmicon.jpg';
+import { Button, AvatarMenu, Avatar, MenuDivider, MenuItem, Modal, Input } from 'react-rainbow-components';
+import { navigateTo } from '../../history';
+import axios from 'axios';
+import './styles.css';
 
 const IsAuth = props => {
   const { auth, onAddDeckClick, logout, username } = props;
   if (auth) {
     return (
-      <AvatarMenu
-        src={logo}
-        assistiveText="Farmdeck"
-        menuAlignment="right"
-        menuSize="small"
-        title="Farmdeck"
-      >
+      <AvatarMenu src={logo} assistiveText="Farmdeck" menuAlignment="right" menuSize="small" title="Farmdeck">
         <li className="rainbow-p-horizontal_small rainbow-align_center rainbow-flex">
-          <Avatar
-            src={logo}
-            assistiveText="Farmdeck"
-            title={username}
-            size="medium"
-          />
+          <Avatar src={logo} assistiveText="Farmdeck" title={username} size="medium" />
           <div className="rainbow-m-left_x-small">
-            <p className="rainbow-font-size-text_medium rainbow-color_dark-1">
-              {username}
-            </p>
-            <p className="rainbow-font-size-text_small rainbow-color_gray-3">
-              Best deck ever
-            </p>
+            <p className="rainbow-font-size-text_medium rainbow-color_dark-1">{username}</p>
+            <p className="rainbow-font-size-text_small rainbow-color_gray-3">Best deck ever</p>
           </div>
         </li>
         <MenuDivider variant="space" />
-        <MenuItem
-          label="Add Deck"
-          iconPosition="left"
-          onClick={onAddDeckClick}
-        />
-        <MenuItem
-          label="Sign Out"
-          iconPosition="left"
-          onClick={() => logout()}
-        />
+        <MenuItem label="Add Deck" iconPosition="left" onClick={onAddDeckClick} />
+        <MenuItem label="Sign Out" iconPosition="left" onClick={() => logout()} />
       </AvatarMenu>
     );
   } else {
     return (
       <Button
         label="Sign In"
-        onClick={() => navigateTo("/signin")}
+        onClick={() => navigateTo('/signin')}
         variant="brand"
         className="rainbow-m-around_medium"
       />
@@ -70,8 +39,8 @@ export default class ButtonAuth extends Component {
     super(props);
     this.state = {
       isOpen: false,
-      name: "",
-      error: "",
+      name: '',
+      error: '',
       isLoading: false
     };
     this.onAddDeckClick = this.onAddDeckClick.bind(this);
@@ -85,13 +54,12 @@ export default class ButtonAuth extends Component {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/decks",
+        'http://kaioru.ngrok.io/decks',
         {
-          guid: guid,
           name: name
         },
         {
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: 'Bearer ' + token }
         }
       );
       if (response.status === 200) {
@@ -105,10 +73,11 @@ export default class ButtonAuth extends Component {
       });
     } catch (err) {
       if (err.response.status === 400) {
-        this.setState({ error: "Please input a name" });
+        this.setState({ error: 'Please input a name' });
       } else if (err.response.status === 403) {
+        console.log(err.response);
         this.setState({
-          error: "Name is taken, please enter another"
+          error: 'Name is taken, please enter another'
         });
       }
 
@@ -119,7 +88,7 @@ export default class ButtonAuth extends Component {
   };
 
   onSubmit = event => {
-    this.postdeck("8c8676ba-b1a9-425c-8b14-64e3ec6128ce", this.state.name);
+    this.postdeck('8c8676ba-b1a9-425c-8b14-64e3ec6128ce', this.state.name);
     event.preventDefault();
   };
 
@@ -140,11 +109,7 @@ export default class ButtonAuth extends Component {
     const { name, error, isLoading } = this.state;
     return (
       <div>
-        <Modal
-          isOpen={this.state.isOpen}
-          onRequestClose={this.handleOnClose}
-          title="Add Deck"
-        >
+        <Modal isOpen={this.state.isOpen} onRequestClose={this.handleOnClose} title="Add Deck">
           <form id="addDeckForm" onSubmit={this.onSubmit}>
             <Input
               name="name"
@@ -156,13 +121,7 @@ export default class ButtonAuth extends Component {
               className="username"
             />
             <div className="submit">
-              <Button
-                label="Submit"
-                variant="neutral"
-                form="addDeckForm"
-                type="submit"
-                isLoading={isLoading}
-              />
+              <Button label="Submit" variant="neutral" form="addDeckForm" type="submit" isLoading={isLoading} />
             </div>
           </form>
         </Modal>
