@@ -90,6 +90,8 @@ class _DeckVoice extends State<DeckVoice> {
                               var type = "";
                               var newState = -1;
 
+                              recording = false;
+
                               if (input.contains("light") ||
                                   input.contains("lights"))
                                 type = "light";
@@ -97,13 +99,12 @@ class _DeckVoice extends State<DeckVoice> {
                                   input.contains("watering"))
                                 type = "water";
                               else if (input.contains("motor") ||
-                                  input.contains("servo") ||
-                                  input.contains("turn"))
+                                  input.contains("servo"))
                                 type = "motor";
                               else if (input.contains("sound") ||
                                   input.contains("sounds") ||
-                                  input.contains("music")) type = "sound";
-
+                                  input.contains("music")) 
+                                  type = "sound";
                               if (input.contains("on"))
                                 newState = 1;
                               else if (input.contains("off"))
